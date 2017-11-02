@@ -21,14 +21,14 @@
  * @link			http://sourceoforge.net/projects/chronolabsapis
  */
 
-
 if (!is_file(__DIR__ . DIRECTORY_SEPARATOR . 'mainfile.php') || !is_file(__DIR__ . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'license.php'))
 {
     header('Location: ' . "./install");
     exit(0);
 }
 
-require_once __DIR__ . DIRECTORY_SEPARATOR . 'functions.php';
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'mainfile.php';
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'common.php';
 
 /**
  * Opens Access Origin Via networking Route NPN
@@ -43,15 +43,8 @@ ini_set("zlib.output_compression", 'Off');
 ini_set("zlib.output_compression_level", -1);
 
 /**
+/**
  * 
  * @var constants
  */
-define("API_FILE_IO_PEERS", __DIR__ . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR . 'peers.diz');
-define("API_FILE_IO_DOMAINS", __DIR__ . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR . 'domains.diz');
-define("API_FILE_IO_FOOTER", __DIR__ . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR . 'api-localhost.html');
-define("API_HISTORY_TLDS", __DIR__ . DIRECTORY_SEPARATOR . 'history' . DIRECTORY_SEPARATOR . 'domain');
-define("API_HISTORY_IPV4", __DIR__ . DIRECTORY_SEPARATOR . 'history' . DIRECTORY_SEPARATOR . 'ipv4');
-define("API_HISTORY_IPV6", __DIR__ . DIRECTORY_SEPARATOR . 'history' . DIRECTORY_SEPARATOR . 'ipv6');
-
-
-?>
+define("_API_LANGUAGE_DEFAULT", "english");

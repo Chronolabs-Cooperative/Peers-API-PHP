@@ -60,7 +60,7 @@ define('TABLES_CREATION_TITLE', 'Database tables creation');
 define('INITIAL_SETTINGS', 'Initial settings');
 define('INITIAL_SETTINGS_TITLE', 'Please enter your initial settings');
 define('TMP_INSERTION', 'Data insertion');
-define('TMP_INSERTION_TITLE', 'Saving your settings to the database');
+define('TMP_INSERTION_TITLE', 'Saving your settings to the tmpbase');
 define('WELCOME', 'Welcome');
 define('WELCOME_TITLE', 'Welcome to your API site');        // L0
 // Settings (labels and help text)
@@ -77,19 +77,19 @@ define('API_URL_HELP', 'Main URL that will be used to access your API installati
 define('LEGEND_CONNECTION', 'Server connection');
 define('LEGEND_DATABASE', 'Database'); // L51
 define('DB_HOST_LABEL', 'Server hostname');    // L27
-define('DB_HOST_HELP', 'Hostname of the database server. If you are unsure, <em>localhost</em> works in most cases'); // L67
+define('DB_HOST_HELP', 'Hostname of the tmpbase server. If you are unsure, <em>localhost</em> works in most cases'); // L67
 define('DB_USER_LABEL', 'User name');    // L28
-define('DB_USER_HELP', 'Name of the user account that will be used to connect to the database server'); // L65
+define('DB_USER_HELP', 'Name of the user account that will be used to connect to the tmpbase server'); // L65
 define('DB_PASS_LABEL', 'Password');    // L52
-define('DB_PASS_HELP', 'Password of your database user account'); // L68
+define('DB_PASS_HELP', 'Password of your tmpbase user account'); // L68
 define('DB_NAME_LABEL', 'Database name');    // L29
-define('DB_NAME_HELP', 'The name of database on the host. The installer will attempt to create the database if not exist'); // L64
+define('DB_NAME_HELP', 'The name of tmpbase on the host. The installer will attempt to create the tmpbase if not exist'); // L64
 define('DB_CHARSET_LABEL', 'Database character set');
 define('DB_CHARSET_HELP', 'MySQL includes character set support that enables you to store tmp using a variety of character sets and perform comparisons according to a variety of collations.');
 define('DB_COLLATION_LABEL', 'Database collation');
 define('DB_COLLATION_HELP', 'A collation is a set of rules for comparing characters in a character set.');
 define('DB_PREFIX_LABEL', 'Table prefix');    // L30
-define('DB_PREFIX_HELP', 'This prefix will be added to all new tables created to avoid name conflicts in the database. If you are unsure, just keep the default'); // L63
+define('DB_PREFIX_HELP', 'This prefix will be added to all new tables created to avoid name conflicts in the tmpbase. If you are unsure, just keep the default'); // L63
 define('DB_PCONNECT_LABEL', 'Use persistent connection');    // L54
 define('DB_PCONNECT_HELP', "Default is 'No'. Leave it blank if you are unsure"); // L69
 define('DB_DATABASE_LABEL', 'Database');
@@ -108,15 +108,15 @@ define('IS_NOT_WRITABLE', '%s is NOT writable.'); // L83
 define('IS_WRITABLE', '%s is writable.'); // L84
 define('API_PATH_FOUND', 'Path found.');
 //define('READY_CREATE_TABLES', 'No API tables were detected.<br>The installer is now ready to create the API system tables.');
-define('API_TABLES_FOUND', 'The API system tables already exist in your database.'); // L131
+define('API_TABLES_FOUND', 'The API system tables already exist in your tmpbase.'); // L131
 define('API_TABLES_CREATED', 'API system tables have been created.');
-//define('READY_INSERT_TMP', 'The installer is now ready to insert initial tmp into your database.');
+//define('READY_INSERT_TMP', 'The installer is now ready to insert initial tmp into your tmpbase.');
 //define('READY_SAVE_MAINFILE', 'The installer is now ready to save the specified settings to <em>mainfile.php</em>.');
 define('SAVED_MAINFILE', 'Settings saved');
 define('SAVED_MAINFILE_MSG', 'The installer has saved the specified settings to <em>mainfile.php</em> and <em>secure.php</em>.');
-define('TMP_ALREADY_INSERTED', 'API tmp found in database.');
-define('TMP_INSERTED', 'Initial tmp has been inserted into database.');
-// %s is database name
+define('TMP_ALREADY_INSERTED', 'API tmp found in tmpbase.');
+define('TMP_INSERTED', 'Initial tmp has been inserted into tmpbase.');
+// %s is tmpbase name
 define('DATABASE_CREATED', 'Database %s created!'); // L43
 // %s is table name
 define('TABLE_NOT_CREATED', 'Unable to create table %s'); // L118
@@ -134,15 +134,15 @@ define('ERR_INVALID_EMAIL', 'Invalid Email'); // L73
 define('ERR_REQUIRED', 'Information is required.'); // L41
 define('ERR_PASSWORD_MATCH', 'The two passwords do not match');
 define('ERR_NEED_WRITE_ACCESS', 'The server must be given write access to the following files and folders<br>(i.e. <em>chmod 775 directory_name</em> on a UNIX/LINUX server)<br>If they are not available or not created correctly, please create manually and set proper permissions.');
-define('ERR_NO_DATABASE', 'Could not create database. Contact the server administrator for details.'); // L31
-define('ERR_NO_DBCONNECTION', 'Could not connect to the database server.'); // L106
+define('ERR_NO_DATABASE', 'Could not create tmpbase. Contact the server administrator for details.'); // L31
+define('ERR_NO_DBCONNECTION', 'Could not connect to the tmpbase server.'); // L106
 define('ERR_WRITING_CONSTANT', 'Failed writing constant %s.'); // L122
 define('ERR_COPY_MAINFILE', 'Could not copy the distribution file to %s');
 define('ERR_WRITE_MAINFILE', 'Could not write into %s. Please check the file permission and try again.');
 define('ERR_READ_MAINFILE', 'Could not open %s for reading');
 define('ERR_INVALID_DBCHARSET', "The charset '%s' is not supported.");
 define('ERR_INVALID_DBCOLLATION', "The collation '%s' is not supported.");
-define('ERR_CHARSET_NOT_SET', 'Default character set is not set for API database.');
+define('ERR_CHARSET_NOT_SET', 'Default character set is not set for API tmpbase.');
 define('_INSTALL_CHARSET', 'UTF-8');
 define('SUPPORT', 'Support');
 define('LOGIN', 'Authentication');

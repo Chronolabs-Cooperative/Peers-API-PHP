@@ -9,7 +9,7 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
 /**
- * Installer database configuration page
+ * Installer tmpbase configuration page
  *
  * See the enclosed file license.txt for licensing information.
  * If you did not receive this file, get it at http://www.gnu.org/licenses/gpl-2.0.html

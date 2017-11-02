@@ -9,7 +9,6 @@ CREATE TABLE peers (
   license varchar(60) NOT NULL default '',
   email varchar(60) NOT NULL default '',
   protocol varchar(10) NOT NULL default '',
-  port varchar(10) NOT NULL default '',
   host varchar(100) NOT NULL default '',
   path varchar(100) NOT NULL default '',
   version varchar(60) NOT NULL default '',

@@ -24,9 +24,9 @@ $content .= '
 </ul>
 <h3>Before you install</h3>
 <ol>
-    <li>Setup WWW server, PHP and database server properly.</li>
-    <li>Prepare a database for your API site.</li>
-    <li>Prepare user account and grant the user the access to the database.</li>
+    <li>Setup WWW server, PHP and tmpbase server properly.</li>
+    <li>Prepare a tmpbase for your API site.</li>
+    <li>Prepare user account and grant the user the access to the tmpbase.</li>
     <li>Make these directories and files writable: %s</li>
     <li>For security considerations, you are strongly advised to move the two directories below out of <a href="http://phpsec.org/projects/guide/3.html" rel="external">document root</a> and change the folder names: %s</li>
     <li>Create (if not already present) and make these directories writable: %s</li>

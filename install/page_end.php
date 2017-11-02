@@ -28,7 +28,7 @@
 require_once './include/common.inc.php';
 include_once '../class/apiload.php';
 include_once '../class/preload.php';
-include_once '../class/database/databasefactory.php';
+include_once '../class/tmpbase/tmpbasefactory.php';
 include_once '../class/logger/apilogger.php';
 
 $_SESSION = array();

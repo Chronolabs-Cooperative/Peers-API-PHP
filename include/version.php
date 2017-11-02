@@ -29,5 +29,5 @@ defined('API_ROOT_PATH') || exit('Restricted access');
 /**
  *  Define API version
  */
-define('API_VERSION', 'Peers API 2.1.1');
-define('API_TYPE', 'peers');
+define('API_VERSION', 'Blowfish Salt API 3.0.99');
+define('API_TYPE', 'salty');

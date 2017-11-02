@@ -29,8 +29,8 @@
 // include_once './class/dbmanager.php';
 // RMV
 // TODO: Shouldn't we insert specific field names??  That way we can use
-// the defaults specified in the database...!!!! (and don't have problem
-// of missing fields in install file, when add new fields to database)
+// the defaults specified in the tmpbase...!!!! (and don't have problem
+// of missing fields in install file, when add new fields to tmpbase)
 function make_groups(&$dbm)
 {
     return array();

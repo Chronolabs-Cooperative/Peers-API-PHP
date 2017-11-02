@@ -23,12 +23,15 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
-include_once API_ROOT_PATH . '/class/logger/apilogger.php';
-include_once API_ROOT_PATH . '/class/apiload.php';
-include_once API_ROOT_PATH . '/class/preload.php';
-include_once API_ROOT_PATH . '/class/database/databasefactory.php';
-include_once API_ROOT_PATH . '/class/database/' . API_DB_TYPE . 'database.php';
-include_once API_ROOT_PATH . '/class/database/sqlutility.php';
+include_once dirname(dirname(__DIR__)) . '/mainfile.php';
+require_once dirname(dirname(__DIR__)) . '/class/logger/apilogger.php';
+require_once dirname(dirname(__DIR__)) . '/class/apiload.php';
+require_once dirname(dirname(__DIR__)) . '/class/preload.php';
+require_once dirname(dirname(__DIR__)) . '/class/database/databasefactory.php';
+require_once dirname(dirname(__DIR__)) . '/class/database/mysqldatabase.php';
+require_once dirname(dirname(__DIR__)) . '/class/database/mysqlidatabase.php';
+require_once dirname(dirname(__DIR__)) . '/class/database/sqlutility.php';
+require_once dirname(dirname(__DIR__)) . '/include/dbconfig.php';
 
 /**
  * database manager for API installer
@@ -120,15 +123,15 @@ class Db_manager
                 } elseif ($prefixed_query[1] === 'INSERT INTO') {
                     if ($this->db->query($prefixed_query[0]) != false) {
                         if (!isset($this->s_tables['insert'][$table])) {
-                            $this->s_tables['insert'][$table] = 1;
+                            $this->s_tables['insert'][$table] = $this->db->getAffectedRows();
                         } else {
-                            $this->s_tables['insert'][$table]++;
+                            $this->s_tables['insert'][$table]=$this->f_tables['insert'][$table]+$this->db->getAffectedRows();
                         }
                     } else {
                         if (!isset($this->f_tables['insert'][$table])) {
-                            $this->f_tables['insert'][$table] = 1;
+                            $this->f_tables['insert'][$table] = $this->db->getAffectedRows();
                         } else {
-                            $this->f_tables['insert'][$table]++;
+                            $this->f_tables['insert'][$table]=$this->f_tables['insert'][$table]+$this->db->getAffectedRows();
                         }
                     }
                 } elseif ($prefixed_query[1] === 'ALTER TABLE') {
@@ -177,9 +180,9 @@ class Db_manager
         $commands = array('create', 'insert', 'alter', 'drop');
         $content  = '<ul class="log">';
         foreach ($commands as $cmd) {
-            if (!@empty($this->s_tables[$cmd])) {
+            if (isset($this->s_tables[$cmd])) {
                 foreach ($this->s_tables[$cmd] as $key => $val) {
-                    $content .= '<li class="success">';
+                    $content .= '<li class="success prestige">';
                     $content .= ($cmd !== 'insert') ? sprintf($this->successStrings[$cmd], $key) : sprintf($this->successStrings[$cmd], $val, $key);
                     $content .= "</li>\n";
                 }
@@ -188,7 +191,7 @@ class Db_manager
         foreach ($commands as $cmd) {
             if (!@empty($this->f_tables[$cmd])) {
                 foreach ($this->f_tables[$cmd] as $key => $val) {
-                    $content .= '<li class="failure">';
+                    $content .= '<li class="failure prestige">';
                     $content .= ($cmd !== 'insert') ? sprintf($this->failureStrings[$cmd], $key) : sprintf($this->failureStrings[$cmd], $val, $key);
                     $content .= "</li>\n";
                 }

@@ -263,10 +263,3 @@ class APILoad
         return $configs = array_merge(APILoad::loadCoreConfig(), $configs);
     }
 }
-// To be enabled in API 3.0
-// spl_autoload_register(array('APILoad', 'load'));
-
-/**
- * XMF libraries
- */
-include_once API_ROOT_PATH . '/class/libraries/vendor/autoload.php';
