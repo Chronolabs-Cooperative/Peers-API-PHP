@@ -1,11 +1,40 @@
-# Chronolabs Cooperative ~ Blowfish Salts Repository
+# Still Under Development
 
-## Author: Simon Antony Roberts <wishcraft@users.sourceforge.net>
+# Chronolabs Cooperative Presents
 
-### Version 3.0.99 ~ http://salty.xortify.com
+# Peering Resolution Securities Services
 
-Salty is an API that allows for backups of blowfish salts used in the every day encryption of applications which utilise hashing and keys for method of maintain a recoveriable offline source of blowfish salts when they are assigned for example in the file: 52pickup.php
+## http://peers.snails.email
 
-## Installation
+### Author: Simon Antony Roberts (simon@snails.email) - (c) 2016 - 2026
 
-Copy the PHP into the root path of your hostname or sub domained hostname then browse the path and run the installer from the browser!
+
+
+## Mod Rewrite .htaccess on root path
+
+The following mod rewrite module extension which you have to enable in apache2 with: $ sudo a2enmod rewrite after doing so the following .htaccess goes in the root if it isn't there already
+
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+
+
+# Installing API
+
+Copy the contents of this distribution to your visually routable path via http(s) etc. Then poll the path required and run the install;
+
+it requires apache2, nixi, iis etc and best with php5+;
+
+## Scheduled Cron Job Details.,
+    
+There is one or more cron jobs that is scheduled task that need to be added to your system kernel when installing this API, the following command is before you install the chronological jobs with crontab in debain/ubuntu
+    
+    Execute:-
+    $ sudo crontab -e
+
+### CronTab Entry:
+    
+
+##Licensing
+
+ * This is released under General Public License 3 - GPL3 + Academic!

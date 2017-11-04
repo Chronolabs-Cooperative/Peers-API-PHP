@@ -56,12 +56,9 @@ if (empty($apiOption['hascommon'])) {
     $apiOption['nocommon'] = true;
     session_start();
 }
-@include dirname(__DIR__) . '/mainfile.php';
+@include '../mainfile.php';
 if (!defined('API_ROOT_PATH')) {
     define('API_ROOT_PATH', str_replace("\\", '/', realpath('../')));
-}
-if (!defined('API_URL')) {
-    define('API_URL', (isset($_SERVER['HTTPS'])?'https://':'http://') . $_SERVER['HTTP_HOST']);
 }
 
 /*

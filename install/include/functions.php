@@ -22,6 +22,7 @@ function install_acceptUser($hash = '')
     $assertClaims = array(
         'sub' => 'apiinstall',
     );
+    $claims = \Xmf\Jwt\TokenReader::fromCookie('install', 'xo_install_user', $assertClaims);
     if (false === $claims || empty($claims->uname)) {
         return false;
     }
@@ -41,65 +42,6 @@ function install_acceptUser($hash = '')
     $_SESSION['apiUserGroups'] = $GLOBALS['apiUser']->getGroups();
 
     return true;
-}
-
-
-/**
- * Function to redirect a user to certain pages
- * @param        $url
- * @param int    $time
- * @param string $message
- * @param bool   $addredirect
- * @param bool   $allowExternalLink
- */
-function redirect_header($url, $time = 3, $message = '')
-{
-    if (preg_match("/[\\0-\\31]|about:|script:/i", $url)) {
-        if (!preg_match('/^\b(java)?script:([\s]*)history\.go\(-\d*\)([\s]*[;]*[\s]*)$/si', $url)) {
-            $url = XOOPS_URL;
-        }
-    }
-    if (!$allowExternalLink && $pos = strpos($url, '://')) {
-        $xoopsLocation = substr(XOOPS_URL, strpos(XOOPS_URL, '://') + 3);
-        if (strcasecmp(substr($url, $pos + 3, strlen($xoopsLocation)), $xoopsLocation)) {
-            $url = XOOPS_URL;
-        }
-    }
-    
-    if (!empty($_SERVER['REQUEST_URI']) && $addredirect && false !== strpos($url, 'user.php')) {
-        if (false === strpos($url, '?')) {
-            $url .= '?xoops_redirect=' . urlencode($_SERVER['REQUEST_URI']);
-        } else {
-            $url .= '&amp;xoops_redirect=' . urlencode($_SERVER['REQUEST_URI']);
-        }
-    }
-    if (defined('SID') && SID && (!isset($_COOKIE[session_name()]) || ($xoopsConfig['use_mysession'] && $xoopsConfig['session_name'] != '' && !isset($_COOKIE[$xoopsConfig['session_name']])))) {
-        if (false === strpos($url, '?')) {
-            $url .= '?' . SID;
-        } else {
-            $url .= '&amp;' . SID;
-        }
-    }
-    $url = preg_replace('/&amp;/i', '&', htmlspecialchars($url, ENT_QUOTES));
-    $message = trim($message) != '' ? $message : _TAKINGBACK;
-    
-    return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">
-<html>
-<head>
-    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=en\"/>
-    <meta http-equiv=\"Refresh\" content=\"$time; url=$url\"/>
-    <meta name=\"generator\" content=\"XOOPS\"/>
-    <link rel=\"shortcut icon\" type=\"image/ico\" href=\"".API_URL . "/favicon.ico\"/>
-    <title>".API_VERSION."</title>
-</head>
-<body>
-<div class=\"center bold\" style=\"background-color: #ebebeb; border: 1px solid #fff;border-right-color: #aaa;border-bottom-color: #aaa;\">
-    <h4>$message</h4>
-    <p>".sprintf(_IFNOTRELOAD, $url)."</p>
-</div>
-</body>
-</html>";
-    exit();
 }
 
 /**
@@ -542,6 +484,8 @@ function xoPutLicenseKey($system_key, $licensefile, $license_file_dist = 'licens
             $fver_buf[$line] = 'define(\'API_LICENSE_PASSWORD\', \'' . md5($vars['ADMIN_PASSWORD']) . "');\n";
         } elseif (strpos($value, 'API_LICENSE_PROTOCOL') > 0) {
             $fver_buf[$line] = 'define(\'API_LICENSE_PROTOCOL\', \'' . addslashes(parse_url($vars['URL'], PHP_URL_SCHEME)) . "');\n";
+        } elseif (strpos($value, 'API_LICENSE_PORT') > 0) {
+            $fver_buf[$line] = 'define(\'API_LICENSE_PORT\', \'' . addslashes((strlen(parse_url($vars['URL'], PHP_URL_PORT))?$_SERVER["REMOTE_PORT"]:parse_url($vars['URL'], PHP_URL_PORT))) . "');\n";
         } elseif (strpos($value, 'API_LICENSE_REALM') > 0) {
             $fver_buf[$line] = 'define(\'API_LICENSE_REALM\', \'' . addslashes(parse_url($vars['URL'], PHP_URL_HOST)) . "');\n";
         } elseif (strpos($value, 'API_LICENSE_PATH') > 0) {
@@ -555,34 +499,33 @@ function xoPutLicenseKey($system_key, $licensefile, $license_file_dist = 'licens
     $results = array();
     foreach($servers as $key => $server)
     {
-        $results[trim($server)] = getURIData(trim($server), 10, 10, array(  'license-key'   =>  $system_key,
-                                                                            'company'       =>  $vars['ADMIN_COMPANY'],
-                                                                            'uname'         =>  $vars['ADMIN_UNAME'],
-                                                                            'email'         =>  $vars['ADMIN_EMAIL'],
-                                                                            'password'      =>  md5($vars['ADMIN_PASSWORD']),
-                                                                            'protocol'      =>  parse_url($vars['URL'], PHP_URL_SCHEME),
-                                                                            'realm'         =>  parse_url($vars['URL'], PHP_URL_HOST),
-                                                                            'path'          =>  parse_url($vars['URL'], PHP_URL_PATH),
-                                                                            'port'          =>  parse_url($vars['URL'], PHP_URL_PORT),
-                                                                            'type'          =>  API_TYPE,
-                                                                            'timezone'      =>  date_default_timezone_get(),
-                                                                            'time'          =>  microtime(true),
-                                                                  ),
-                                                                  array(    'API-VERSION'   =>  'API-VERSION: ' . API_VERSION,
-                                                                            'API-TYPE'      =>  'API-TYPE: ' . API_TYPE,
-                                                                            'API-TIMEZONE'  =>  'API-TIMEZONE: ' . date_default_timezone_get(),
-                                                                            'API-UNIXTIME'  =>  'API-UNIXTIME: ' . microtime(true),
-                                                                  ));
+        $results[trim($server)] = getURIData(trim($server), 10, 10, array('license-key'   =>  $system_key,
+                                                                    'company'       =>  $vars['ADMIN_COMPANY'],
+                                                                    'uname'         =>  $vars['ADMIN_UNAME'],
+                                                                    'email'         =>  $vars['ADMIN_EMAIL'],
+                                                                    'password'      =>  md5($vars['ADMIN_PASSWORD']),
+                                                                    'protocol'      =>  parse_url($vars['URL'], PHP_URL_SCHEME),
+                                                                    'realm'         =>  parse_url($vars['URL'], PHP_URL_HOST),
+                                                                    'path'          =>  parse_url($vars['URL'], PHP_URL_PATH),
+                                                                    'type'          =>  API_TYPE,
+                                                                    'timezone'      =>  date_default_timezone_get(),
+                                                                    'time'          =>  microtime(true),
+                                                              ),
+                                                              array('API-VERSION'   =>  'API-VERSION: ' . API_VERSION,
+                                                                    'API-TYPE'      =>  'API-TYPE: ' . API_TYPE,
+                                                                    'API-TIMEZONE'  =>  'API-TIMEZONE: ' . date_default_timezone_get(),
+                                                                    'API-UNIXTIME'  =>  'API-UNIXTIME: ' . microtime(true),
+                                                              ));
     }
     
     if (count($results)>0)
     {
-        $fver_buf[]="\n\n/**";
+        $fver_buf[]="\n\n\n/**";
         $fver_buf[]="\n * Peering Services notified over cURL on installations:~";
         $fver_buf[]="\n * ";
         foreach($results as $server => $values)
         {
-            if ($values['state'] == 200 || $values['state'] == 201)
+            if ($values['state'] == 201)
             {
                 $fver_buf[]="\n * \tSuccessfully Announced: $server";
                 $fver_buf[]="\n * \t\t";

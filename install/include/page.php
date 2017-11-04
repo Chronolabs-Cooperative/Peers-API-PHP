@@ -51,7 +51,7 @@ $pages = array(
     'dbsettings'      => array(
         'name'  => DATABASE_CONFIG,
         'title' => DATABASE_CONFIG_TITLE,
-        'icon'  => 'fa fa-fw fa-tmpbase'
+        'icon'  => 'fa fa-fw fa-database'
     ),
     'configsave'      => array(
         'name'  => CONFIG_SAVE,

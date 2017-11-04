@@ -41,7 +41,7 @@ posts is recorded to aid in enforcing these conditions. Creating multiple
 accounts for a single user is not allowed. You agree that the webmaster,
 administrator and moderators of this site have the right to remove, edit,
 move or close any topic at any time should they see fit. As a user you agree
-to any information you have entered above being stored in a tmpbase. While
+to any information you have entered above being stored in a database. While
 this information will not be disclosed to any third party without your
 consent the webmaster, administrator and moderators cannot be held
 responsible for any hacking attempt that may lead to the tmp being

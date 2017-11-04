@@ -1,6 +1,6 @@
 <?php
 /**
- * Chronolabs REST Blowfish Salts Repository API
+ * Chronolabs REST Whois API
  *
  * You may not change or alter any portion of this comment or credits
  * of supporting developers from this source code or any supporting source code
@@ -11,635 +11,407 @@
  *
  * @copyright       Chronolabs Cooperative http://labs.coop
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- * @package         salty
- * @since           2.0.1
- * @author          Simon Roberts <wishcraft@users.sourceforge.net>
- * @version         $Id: functions.php 1000 2015-06-16 23:11:55Z wishcraft $
- * @subpackage		functions
- * @description		Blowfish Salts Repository API
- * @link			http://cipher.labs.coop
- * @link			http://sourceoforge.net/projects/chronolabsapis
+ * @package         whois
+ * @since           1.0.2
+ * @author          Simon Roberts <meshy@labs.coop>
+ * @version         $Id: functions.php 1000 2013-06-07 01:20:22Z mynamesnot $
+ * @subpackage		api
+ * @description		Whois API Service REST
  */
 
-
-error_reporting(E_ERROR);
-ini_set('display_errors', true);
-ini_set('log_errors', false);
-
-
-if (!function_exists("getDomainSupportism")) {
-    
-    /**
-     * getDomainSupportism ~ gets the domains supporting API
-     *
-     * @param string $variable
-     * @param string $realm
-     * @return array
-     */
-    function getDomainSupportism($variable = 'array', $realm = '')
+if (!function_exists('getRandomGammaSalt'))
+{
+    function getRandomGammaSalt()
     {
-        static $ret = array();
-        if (empty($ret))
+        $results = array('salt_alpha', 'salt_charley', 'salt_delta', 'salt_alpha + salt_alpha', 'salt_charley + salt_alpha', 'salt_delta + salt_alpha', 'salt_alpha + salt_charley', 'salt_charley + salt_charley', 'salt_delta + salt_charley', 'salt_alpha + salt_delta', 'salt_charley + salt_delta', 'salt_delta + salt_delta', 'none');
+        shuffle($results);
+        while(mt_rand(0,50)>9)
+            shuffle($results);
+        return $results[mt_rand(0,count($results)-1)];
+    }
+}
+
+if (!function_exists('registerUserResource'))
+{
+    /**
+     * Include Hashing Class
+     */
+    require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'class' . DIRECTORY_SEPARATOR . 'xcp' . DIRECTORY_SEPARATOR . 'xcp.class.php';
+    
+    function registerUserResource($type, $version, $licensekey, $company, $uname, $email, $password, $protocol, $realm, $path, $timezone)
+    {
+        $user = array();
+        while (count($user) == 0)
         {
-            $supporters = file(API_FILE_IO_DOMAINS);
-            foreach($supporters as $supporter)
+            $sql = "SELECT * FROM `" . $GLOBALS['APIDB']->prefix('users') . "` WHERE `uname` LIKE '$uname' AND 'pass' LIKE '$password'";
+            if ($GLOBALS['APIDB']->getRowsNum($result = $GLOBALS['APIDB']->queryF($sql))==0)
             {
-                $parts = explode("||", $supporter);
-                if (strpos(' '.strtolower($realm), strtolower($parts[0]))>0)
-                {
-                    $ret['domain'] = $parts[0];
-                    $ret['protocol'] = $parts[1];
-                    $ret['business'] = $parts[2];
-                    $ret['entity'] = $parts[3];
-                    $ret['contact'] = $parts[4];
-                    $ret['referee'] = $parts[5];
-                    continue;
-                }
-            }
+                $sql = "INSERT INTO `" . $GLOBALS['APIDB']->prefix('users') . "` (`name`, `uname`, `email`, `hash`, `actkey`, `pass`, `api_regdate`, `timezone`, `api_mailok`, `salt_alpha`, `salt_charley`, `salt_delta`, `salt_gamma`) VALUES(%s, %s, %s, %s, %s, %s, UNIX_TIMESTAMP(), %s, 1, %s, %s, %s, %s)";
+                $alpha = '';
+                for($t=mt_rand(0, 10); $t<mt_rand(22,45); $t++)
+                    while(mt_rand(0,55)<= 39)
+                        $alpha .= chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("Z"))) . chr(mt_rand(ord("A"),ord("Z"))) . chr(mt_rand(ord("a"),ord("z"))) . chr(mt_rand(ord("!"),ord("="))) . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z"))) ;
+                $charley = '';
+                for($t=mt_rand(0, 10); $t<mt_rand(22,45); $t++)
+                    while(mt_rand(0,85)<= 69)
+                        $charley .= chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("Z"))) . chr(mt_rand(ord("A"),ord("Z"))) . chr(mt_rand(ord("a"),ord("z"))) . chr(mt_rand(ord("!"),ord("="))) . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z"))) ;
+                $delta = '';
+                for($t=mt_rand(0, 10); $t<mt_rand(22,45); $t++)
+                    while(mt_rand(0,75)<= 55)
+                        $delta .= chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("Z"))) . chr(mt_rand(ord("A"),ord("Z"))) . chr(mt_rand(ord("a"),ord("z"))) . chr(mt_rand(ord("!"),ord("="))) . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z")))  . chr(mt_rand(ord("a"),ord("z"))) ;
+                $gamma = getRandomGammaSalt();   
+                $xcp = new xcp(NULL, mt_rand(0, 255), mt_rand(5,11));
+                $hash = $xcp->calc(str_replace('salt_alpha', $alpha, str_replace('salt_charley', $charley, str_replace('salt_delta', $delta, str_replace(' + ', '', $gamma)))));
+                $xcp = new xcp(NULL, mt_rand(0, 255), mt_rand(5,7));
+                $actkey = $xcp->calc($charley);
+                if (!$GLOBALS['APIDB']->queryF($sql = sprintf($sql, $GLOBALS['APIDB']->quote($company), $GLOBALS['APIDB']->quote($uname), $GLOBALS['APIDB']->quote($email), $GLOBALS['APIDB']->quote($hash), $GLOBALS['APIDB']->quote($actkey), $GLOBALS['APIDB']->quote($password), $GLOBALS['APIDB']->quote($timezone), $GLOBALS['APIDB']->quote($alpha), $GLOBALS['APIDB']->quote($charley), $GLOBALS['APIDB']->quote($delta), $GLOBALS['APIDB']->quote($gamma))))
+                    die("SQL Failed: $sql;");
+                $GLOBALS['APIDB']->queryF("COMMIT");
+            } else 
+                $user = $GLOBALS['APIDB']->fetchArray($result);
         }
-        if (isset($ret[$variable]))
-            return $ret[$variable];
-            return $ret;
+        $sql = "INSERT INTO `" . $GLOBALS['APIDB']->prefix('users') . "` (`uid`, `company`, `license`, `email`, `protocol`, `host`, `path`, `version`, `type`) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)";
+        if (!$GLOBALS['APIDB']->queryF($sql = sprintf($sql, $GLOBALS['APIDB']->quote($user['uid']), $GLOBALS['APIDB']->quote($company), $GLOBALS['APIDB']->quote($licensekey), $GLOBALS['APIDB']->quote($email), $GLOBALS['APIDB']->quote($protocol), $GLOBALS['APIDB']->quote($realm), $GLOBALS['APIDB']->quote($path), $GLOBALS['APIDB']->quote($version), $GLOBALS['APIDB']->quote($type))))
+            die("SQL Failed: $sql;");
+        $pid = $GLOBALS['APIDB']->getInsertId();
+        $GLOBALS['APIDB']->queryF("COMMIT");
+        return array('pid' => $pid, 'uid' => $user['uid'], 'uname' => $user['uname'], 'referee' => $user['hash'], 'authkey' => md5($user['api_regdate'] . $user['uname'] . $user['email'] . str_replace('salt_alpha', $user['salt_alpha'], str_replace('salt_charley', $user['salt_charley'], str_replace('salt_delta', $user['salt_delta,'], str_replace(' + ', '', $user['salt_gamma']))))));
     }
 }
-
-
-if (!function_exists("checkDisplayHelp")) {
+if (!function_exists("sendURIData")) {
     
-    /**
-     * checkDisplayHelp ~ checks if help will need to be displayed
+    /* function getURIData()
      *
-     * @param string $action
-     * @return boolean
-     */
-    function checkDisplayHelp($action = '')
-    {
-        global $errors;
-        apiLoadLanguage('errors', _API_LANGUAGE_DEFAULT);
-        if (empty($action))
-            return true;
-        return false;
-    }
-}
-
-
-if (!function_exists("apiLoadLanguage")) {
-    
-    /**
-     * apiLoadLanguage ~ loads a language files
+     * 	Get a supporting domain system for the API
+     * @author 		Simon Roberts (Chronolabs) simon@snails.email
      *
-     * @param unknown_type $definition
-     * @param unknown_type $language
-     * @return boolean
+     * @return 		float()
      */
-    function apiLoadLanguage($definition = 'help', $language = 'english')
-    {
-        if (!empty($language)) $language = _API_LANGUAGE_DEFAULT;
-        if (file_exists($file = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . $language . DIRECTORY_SEPARATOR . "$definition.php"))
-        {
-            return include_once($file);
-        }
-        return false;
-    }
-}
-
-
-if (!function_exists("getURIData")) {
-    
-    /**
-     * getURIData() ~ get data from a URI/URL
-     *
-     * @param string $uri
-     * @param array $posts
-     * @param getURIData $headers
-     * @param integer $timeout
-     * @param integer $connectout
-     * @return string
-     */
-    function getURIData($uri = '', $posts = array(), $headers = array(), $timeout = 36, $connectout = 44)
+    function sendURIData($uri = '', $timeout = 25, $connectout = 25, $post = array(), $headers = array())
     {
         if (!function_exists("curl_init"))
         {
-            return file_get_contents($uri);
+            die("Require module: php-curl -- run on ubuntu: $ sudo apt-get install php-curl");
         }
         if (!$btt = curl_init($uri)) {
             return false;
         }
-        if (count($headers)) {
+        if (count($headers)>0)
+        {
             curl_setopt($btt, CURLOPT_HEADER, true);
-            curl_setopt($btt, CURLOPT_HEADERS, $headers);
+            curl_setopt($btt, CURLOPT_HTTPHEADER, implode("\n", $headers));
         } else
             curl_setopt($btt, CURLOPT_HEADER, 0);
-            if (count($posts)) {
-                curl_setopt($btt, CURLOPT_POST, true);
-                curl_setopt($btt, CURLOPT_POSTFIELDS, http_build_query($posts));
-            } else
-                curl_setopt($btt, CURLOPT_POST, 0);
-                curl_setopt($btt, CURLOPT_CONNECTTIMEOUT, $connectout);
-                curl_setopt($btt, CURLOPT_TIMEOUT, $timeout);
-                curl_setopt($btt, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($btt, CURLOPT_VERBOSE, false);
-                curl_setopt($btt, CURLOPT_SSL_VERIFYHOST, false);
-                curl_setopt($btt, CURLOPT_SSL_VERIFYPEER, false);
-                $data = curl_exec($btt);
-                curl_close($btt);
-                return $data;
+        if (count($post)>0)
+        {
+            curl_setopt($btt, CURLOPT_POST, true);
+            curl_setopt($btt, CURLOPT_POSTFIELDS, http_build_query($post_data));
+        } else 
+            curl_setopt($btt, CURLOPT_POST, 0);
+        curl_setopt($btt, CURLOPT_CONNECTTIMEOUT, $connectout);
+        curl_setopt($btt, CURLOPT_TIMEOUT, $timeout);
+        curl_setopt($btt, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($btt, CURLOPT_VERBOSE, false);
+        curl_setopt($btt, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($btt, CURLOPT_SSL_VERIFYPEER, false);
+        $data = curl_exec($btt);
+        $info = curl_info($btt);
+        curl_close($btt);
+        return array('value' => $data, 'info' => $info);
     }
 }
 
-if (!function_exists("readRawFile")) {
-    
-    /**
-     * Return the contents of this File as a string.
-     *
-     * @param string $file
-     * @param string $bytes where to start
-     * @param string $mode
-     * @param boolean $force If true then the file will be re-opened even if its already opened, otherwise it won't
-     * @return mixed string on success, false on failure
-     * @access public
-     */
-    function readRawFile($file = '', $bytes = false, $mode = 'rb', $force = false)
-    {
-        $success = false;
-        if ($bytes === false) {
-            $success = file_get_contents($file);
-        } elseif ($fhandle = fopen($file, $mode)) {
-            if (is_int($bytes)) {
-                $success = fread($fhandle, $bytes);
-            } else {
-                $data = '';
-                while (! feof($fhandle)) {
-                    $data .= fgets($fhandle, 4096);
-                }
-                $success = trim($data);
-            }
-            fclose($fhandle);
-        }
-        return $success;
-    }
+
+if (!function_exists("getCompleteFilesListAsArray")) {
+	function getCompleteFilesListAsArray($dirname, $result = array())
+	{
+		foreach(getCompleteDirListAsArray($dirname) as $path)
+			foreach(getFileListAsArray($path) as $file)
+				$result[$path.DIRECTORY_SEPARATOR.$file] = $path.DIRECTORY_SEPARATOR.$file;
+				return $result;
+	}
+
 }
 
-if (!function_exists("writeRawFile")) {
-    /**
-     *
-     * @param string $file
-     * @param string $data
-     */
-    function writeRawFile($file = '', $data = '')
-    {
-        if (!is_dir(dirname($file)))
-            mkdir(dirname($file), 0777, true);
-            if (is_file($file))
-                unlink($file);
-                $ff = fopen($file, 'w');
-                fwrite($ff, $data, strlen($data));
-                return fclose($ff);
-    }
+
+if (!function_exists("getCompleteDirListAsArray")) {
+	function getCompleteDirListAsArray($dirname, $result = array())
+	{
+		$result[$dirname] = $dirname;
+		foreach(getDirListAsArray($dirname) as $path)
+		{
+			$result[$dirname . DIRECTORY_SEPARATOR . $path] = $dirname . DIRECTORY_SEPARATOR . $path;
+			$result = getCompleteDirListAsArray($dirname . DIRECTORY_SEPARATOR . $path, $result);
+		}
+		return $result;
+	}
+
 }
 
-if (!function_exists("writeCache")) {
-    /**
-     * Write data for key into cache
-     *
-     * @param string $key Identifier for the data
-     * @param mixed $data Data to be cached
-     * @param mixed $duration How long to cache the data, in seconds
-     * @return boolean True if the data was succesfully cached, false on failure
-     * @access public
-     */
-    function writeCache($key, $data = array(), $duration = 3600)
-    {
-        if (!isset($data)) {
-            return false;
-        }
-        
-        if (!empty($key))
-            $key .= substr(md5($_SERVER["HTTP_HOST"]), 3, 7) . '--' . $key;
-            else
-                return false;
-                
-                if ($duration == null) {
-                    $duration = 3600;
-                }
-                $windows = false;
-                $lineBreak = "\n";
-                
-                if (substr(PHP_OS, 0, 3) == "WIN") {
-                    $lineBreak = "\r\n";
-                    $windows = true;
-                }
-                $expires = time() + $duration;
-                $contents = $expires . $lineBreak . "return " . var_export($data, true) . ";" . $lineBreak;
-                return  writeRawFile(API_PATH . DIRECTORY_SEPARATOR . $key . '.php');
-    }
+if (!function_exists("getCompleteHistoryListAsArray")) {
+	function getCompleteHistoryListAsArray($dirname, $result = array())
+	{
+		foreach(getCompleteDirListAsArray($dirname) as $path)
+		{
+			foreach(getHistoryListAsArray($path) as $file=>$values)
+				$result[$path][sha1_file($path . DIRECTORY_SEPARATOR . $values['file'])] = array_merge(array('fullpath'=>$path . DIRECTORY_SEPARATOR . $values['file']), $values);
+		}
+		return $result;
+	}
 }
 
-if (!function_exists("readCache")) {
-    /**
-     * Read a key from the cache
-     *
-     * @param string $key Identifier for the data
-     * @return mixed The cached data, or false if the data doesn't exist, has expired, or if there was an error fetching it
-     * @access public
-     */
-    function readCache($key)
-    {
-        if (!empty($key))
-            $key .= substr(md5($_SERVER["HTTP_HOST"]), 3, 7) . '--' . $key;
-            else
-                return false;
-                
-                $cachetime = readRawFile(API_PATH . DIRECTORY_SEPARATOR . $key . '.php', 11);
-                if ($cachetime !== false && intval($cachetime) < time()) {
-                    return false;
-                }
-                $data = readRawFile(API_PATH . DIRECTORY_SEPARATOR . $key . '.php', true);
-                if (!empty($data))
-                    $data = eval($data);
-                    return $data;
-    }
+if (!function_exists("getDirListAsArray")) {
+	function getDirListAsArray($dirname)
+	{
+		$ignored = array(
+				'cvs' ,
+				'_darcs');
+		$list = array();
+		if (substr($dirname, - 1) != '/') {
+			$dirname .= '/';
+		}
+		if ($handle = opendir($dirname)) {
+			while ($file = readdir($handle)) {
+				if (substr($file, 0, 1) == '.' || in_array(strtolower($file), $ignored))
+					continue;
+					if (is_dir($dirname . $file)) {
+						$list[$file] = $file;
+					}
+			}
+			closedir($handle);
+			asort($list);
+			reset($list);
+		}
+
+		return $list;
+	}
 }
 
-if (!function_exists("checkEmail")) {
-    /**
-     * checkEmail()
-     *
-     * @param mixed $email
-     * @return bool|mixed
-     */
-    function checkEmail($email)
-    {
-        if (!$email || !preg_match('/^[^@]{1,64}@[^@]{1,255}$/', $email)) {
-            return false;
-        }
-        $email_array = explode("@", $email);
-        $local_array = explode(".", $email_array[0]);
-        for ($i = 0; $i < sizeof($local_array); $i++) {
-            if (!preg_match("/^(([A-Za-z0-9!#$%&'*+\/\=?^_`{|}~-][A-Za-z0-9!#$%&'*+\/\=?^_`{|}~\.-]{0,63})|(\"[^(\\|\")]{0,62}\"))$/", $local_array[$i])) {
-                return false;
-            }
-        }
-        if (!preg_match("/^\[?[0-9\.]+\]?$/", $email_array[1])) {
-            $domain_array = explode(".", $email_array[1]);
-            if (sizeof($domain_array) < 2) {
-                return false; // Not enough parts to domain
-            }
-            for ($i = 0; $i < sizeof($domain_array); $i++) {
-                if (!preg_match("/^(([A-Za-z0-9][A-Za-z0-9-]{0,61}[A-Za-z0-9])|([A-Za-z0-9]+))$/", $domain_array[$i])) {
-                    return false;
-                }
-            }
-        }
-        return $email;
-    }
+if (!function_exists("getFileListAsArray")) {
+	function getFileListAsArray($dirname, $prefix = '')
+	{
+		$filelist = array();
+		if (substr($dirname, - 1) == '/') {
+			$dirname = substr($dirname, 0, - 1);
+		}
+		if (is_dir($dirname) && $handle = opendir($dirname)) {
+			while (false !== ($file = readdir($handle))) {
+				if (! preg_match('/^[\.]{1,2}$/', $file) && is_file($dirname . '/' . $file)) {
+					$file = $prefix . $file;
+					$filelist[$file] = $file;
+				}
+			}
+			closedir($handle);
+			asort($filelist);
+			reset($filelist);
+		}
+
+		return $filelist;
+	}
+}
+
+if (!function_exists("getHistoryListAsArray")) {
+	function getHistoryListAsArray($dirname, $prefix = '')
+	{
+		$formats = cleanWhitespaces(file(__DIR__ . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR . 'history-formats.diz'));
+		$filelist = array();
+
+		if ($handle = opendir($dirname)) {
+			while (false !== ($file = readdir($handle))) {
+				foreach($formats as $format)
+					if (substr(strtolower($file), strlen($file)-strlen(".".$format)) == strtolower(".".$format)) {
+						$file = $prefix . $file;
+						$filelist[$file] = array('file'=>$file, 'type'=>$format, 'sha1' => sha1_file($dirname . DIRECTORY_SEPARATOR . $file));
+					}
+			}
+			closedir($handle);
+		}
+		return $filelist;
+	}
+}
+
+
+if (!function_exists("cleanWhitespaces")) {
+	/**
+	 *
+	 * @param array $array
+	 */
+	function cleanWhitespaces($array = array())
+	{
+		foreach($array as $key => $value)
+		{
+			if (is_array($value))
+				$array[$key] = cleanWhitespaces($value);
+				else {
+					$array[$key] = trim(str_replace(array("\n", "\r", "\t"), "", $value));
+				}
+		}
+		return $array;
+	}
 }
 
 
 if (!function_exists("whitelistGetIP")) {
-    
-    /* function whitelistGetIPAddy()
-     *
-     * 	provides an associative array of whitelisted IP Addresses
-     * @author 		Simon Roberts (Chronolabs) simon@labs.coop
-     *
-     * @return 		array
-     */
-    function whitelistGetIPAddy() {
-        return array_merge(whitelistGetNetBIOSIP(), file(dirname(dirname(dirname(dirname(__FILE__)))) . DIRECTORY_SEPARATOR . 'whitelist.txt'));
-    }
+
+	/* function whitelistGetIPAddy()
+	 * 
+	 * 	provides an associative array of whitelisted IP Addresses
+	 * @author 		Simon Roberts (Chronolabs) simon@labs.coop
+	 * 
+	 * @return 		array
+	 */
+	function whitelistGetIPAddy() {
+		return array_merge(whitelistGetNetBIOSIP(), file(dirname(dirname(dirname(dirname(__FILE__)))) . DIRECTORY_SEPARATOR . 'whitelist.txt'));
+	}
 }
 
 if (!function_exists("whitelistGetNetBIOSIP")) {
-    
-    /* function whitelistGetNetBIOSIP()
-     *
-     * 	provides an associative array of whitelisted IP Addresses base on TLD and NetBIOS Addresses
-     * @author 		Simon Roberts (Chronolabs) simon@labs.coop
-     *
-     * @return 		array
-     */
-    function whitelistGetNetBIOSIP() {
-        $ret = array();
-        foreach(file(dirname(dirname(dirname(dirname(__FILE__)))) . DIRECTORY_SEPARATOR . 'whitelist-domains.txt') as $domain) {
-            $ip = gethostbyname($domain);
-            $ret[$ip] = $ip;
-        }
-        return $ret;
-    }
+
+	/* function whitelistGetNetBIOSIP()
+	 *
+	 * 	provides an associative array of whitelisted IP Addresses base on TLD and NetBIOS Addresses
+	 * @author 		Simon Roberts (Chronolabs) simon@labs.coop
+	 *
+	 * @return 		array
+	 */
+	function whitelistGetNetBIOSIP() {
+		$ret = array();
+		foreach(file(dirname(dirname(dirname(dirname(__FILE__)))) . DIRECTORY_SEPARATOR . 'whitelist-domains.txt') as $domain) {
+			$ip = gethostbyname($domain);
+			$ret[$ip] = $ip;
+		} 
+		return $ret;
+	}
 }
 
 if (!function_exists("whitelistGetIP")) {
-    
-    /* function whitelistGetIP()
-     *
-     * 	get the True IPv4/IPv6 address of the client using the API
-     * @author 		Simon Roberts (Chronolabs) simon@labs.coop
-     *
-     * @param		$asString	boolean		Whether to return an address or network long integer
-     *
-     * @return 		mixed
-     */
-    function whitelistGetIP($asString = true){
-        // Gets the proxy ip sent by the user
-        $proxy_ip = '';
-        if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-            $proxy_ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-        } else
-            if (!empty($_SERVER['HTTP_X_FORWARDED'])) {
-                $proxy_ip = $_SERVER['HTTP_X_FORWARDED'];
-            } else
-                if (! empty($_SERVER['HTTP_FORWARDED_FOR'])) {
-                    $proxy_ip = $_SERVER['HTTP_FORWARDED_FOR'];
-                } else
-                    if (!empty($_SERVER['HTTP_FORWARDED'])) {
-                        $proxy_ip = $_SERVER['HTTP_FORWARDED'];
-                    } else
-                        if (!empty($_SERVER['HTTP_VIA'])) {
-                            $proxy_ip = $_SERVER['HTTP_VIA'];
-                        } else
-                            if (!empty($_SERVER['HTTP_X_COMING_FROM'])) {
-                                $proxy_ip = $_SERVER['HTTP_X_COMING_FROM'];
-                            } else
-                                if (!empty($_SERVER['HTTP_COMING_FROM'])) {
-                                    $proxy_ip = $_SERVER['HTTP_COMING_FROM'];
-                                }
-                            if (!empty($proxy_ip) && $is_ip = preg_match('/^([0-9]{1,3}.){3,3}[0-9]{1,3}/', $proxy_ip, $regs) && count($regs) > 0)  {
-                                $the_IP = $regs[0];
-                            } else {
-                                $the_IP = $_SERVER['REMOTE_ADDR'];
-                            }
-                            
-                            $the_IP = ($asString) ? $the_IP : ip2long($the_IP);
-                            return $the_IP;
-    }
+
+	/* function whitelistGetIP()
+	 *
+	 * 	get the True IPv4/IPv6 address of the client using the API
+	 * @author 		Simon Roberts (Chronolabs) simon@labs.coop
+	 * 
+	 * @param		boolean		$asString	Whether to return an address or network long integer
+	 * 
+	 * @return 		mixed
+	 */
+	function whitelistGetIP($asString = true){
+		// Gets the proxy ip sent by the user
+		$proxy_ip = '';
+		if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+			$proxy_ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+		} else
+		if (!empty($_SERVER['HTTP_X_FORWARDED'])) {
+			$proxy_ip = $_SERVER['HTTP_X_FORWARDED'];
+		} else
+		if (! empty($_SERVER['HTTP_FORWARDED_FOR'])) {
+			$proxy_ip = $_SERVER['HTTP_FORWARDED_FOR'];
+		} else
+		if (!empty($_SERVER['HTTP_FORWARDED'])) {
+			$proxy_ip = $_SERVER['HTTP_FORWARDED'];
+		} else
+		if (!empty($_SERVER['HTTP_VIA'])) {
+			$proxy_ip = $_SERVER['HTTP_VIA'];
+		} else
+		if (!empty($_SERVER['HTTP_X_COMING_FROM'])) {
+			$proxy_ip = $_SERVER['HTTP_X_COMING_FROM'];
+		} else
+		if (!empty($_SERVER['HTTP_COMING_FROM'])) {
+			$proxy_ip = $_SERVER['HTTP_COMING_FROM'];
+		}
+		if (!empty($proxy_ip) && $is_ip = preg_match('/^([0-9]{1,3}.){3,3}[0-9]{1,3}/', $proxy_ip, $regs) && count($regs) > 0)  {
+			$the_IP = $regs[0];
+		} else {
+			$the_IP = $_SERVER['REMOTE_ADDR'];
+		}
+			
+		$the_IP = ($asString) ? $the_IP : ip2long($the_IP);
+		return $the_IP;
+	}
 }
 
-/**
- * apiSearch() ~ searches for an result on the API
- *
- * @param string $method
- * @param string $query
- * @param boolean $peers
- * @param integer $number
- * @param array $peerings
- *
- * @return array
- */
-function apiSearch($method = '', $query = '', $peers = false, $number = 1, $peerings = array())
-{
-    
-    switch ($method)
-    {
-        case "uri":
-            $url['protocol'] = (substr($query,0,5)=="https"?"https://":(substr($query,0,5)=="httpx"?"httpx://":"http://"));
-            $url['domain'] = parse_url($query, PHP_URL_HOST);
-            $url['path'] = parse_url($query, PHP_URL_PATH);
-            $url['base'] = getBaseDomain($url['protocol'].$url['domain']);
-            $parts = array_reverse(explode('.', $url['base']));
-            $url['fallout'] = (strlen($parts[0])==2?$parts[0]:"");
-            $url['strata'] = (strlen($parts[0])!=2?$parts[0]:$parts[1]);
-            $sql = "SELECT count(*) FROM `" . $GLOBALS['APIDB']->prefix("uri") . "` WHERE `uri-key` = '" . $urikey = sha1(implode("", $url)) ."'";
-            list($count) = $GLOBALS['APIDB']->FetchRow($GLOBALS['APIDB']->queryF($sql));
-            if ($count > 0)
-            {
-                return array("count"=>$count, "code" => 200);
-            }
-            break;
-        case "email":
-            $sql = "SELECT count(*) FROM `" . $GLOBALS['APIDB']->prefix("email") . "` WHERE `email` LIKE '" . $email ."'";
-            list($count) = $GLOBALS['APIDB']->FetchRow($GLOBALS['APIDB']->queryF($sql));
-            if ($count > 0)
-            {
-                return array("count"=>$count, "code" => 200);
-            }
-    }
-    return array("error"=>"nothing found", "code" => 500);
-}
-
-/**
- * apiLodge() ~ create's a blowfish salt lodgement
- *
- * @param string $email
- * @param string $name
- * @param integer $pin
- * @param string $uri
- * @param string $salt
- * @param array $peerings
- *
- * @return array
- */
-function apiLodge($email = '', $name = '', $pin = 0, $uri = '', $salt = '', $peerings = array())
-{
-    
-    $url['protocol'] = (substr($uri,0,5)=="https"?"https://":(substr($uri,0,5)=="httpx"?"httpx://":"http://"));
-    $url['domain'] = parse_url($uri, PHP_URL_HOST);
-    $url['path'] = parse_url($uri, PHP_URL_PATH);
-    $url['base'] = getBaseDomain($url['protocol'].$url['domain']);
-    $parts = array_reverse(explode('.', $url['base']));
-    $url['fallout'] = (strlen($parts[0])==2?$parts[0]:"");
-    $url['strata'] = (strlen($parts[0])!=2?$parts[0]:$parts[1]);
-    
-    $sql = "SELECT count(*) FROM `" . $GLOBALS['APIDB']->prefix("uri") . "` WHERE `uri-key` = '" . $urikey = sha1(implode("", $url)) ."'";
-    list($count) = $GLOBALS['APIDB']->FetchRow($GLOBALS['APIDB']->queryF($sql));
-    if ($count == 0)
-    {
-        $query[] = "INSERT INTO `" . $GLOBALS['APIDB']->prefix("uri") . "` (`uri-key`, `encounted`, `protocol`, `domain`, `base`, `strata`, `fallout`, `salts`, `retrieves`) VALUES('" . $urikey ."', 1, '" . $GLOBALS['APIDB']->escape($url['protocol']) . "', '" . $GLOBALS['APIDB']->escape($url['domain']) . "', '" . $GLOBALS['APIDB']->escape($url['base']) . "','" . $GLOBALS['APIDB']->escape($url['strata']) . "','" . $GLOBALS['APIDB']->escape($url['fallout']) . "', 1, 0)";
-    } else {
-        $query[] = "UPDATE `" . $GLOBALS['APIDB']->prefix("uri") . "` SET `encounted` = `encounted` + 1, `salts` = `salts` + 1 WHERE `uri-key` = '" . $urikey ."'";
-    }
-    $sql = "SELECT count(*) FROM `" . $GLOBALS['APIDB']->prefix("email") . "` WHERE `email-key` = '" . $emailkey = sha1($email.$name.$urikey) ."'";
-    list($count) = $GLOBALS['APIDB']->FetchRow($GLOBALS['APIDB']->queryF($sql));
-    if ($count == 0)
-    {
-        $query[] = "INSERT INTO `" . $GLOBALS['APIDB']->prefix("email") . "` (`email-key`,`uri-key`, `email`, `name`) VALUES('" . $emailkey ."', '" . $urikey ."', '" . $GLOBALS['APIDB']->escape($email) . "', '" . $GLOBALS['APIDB']->escape($name) . "')";
-    }
-    $sql = "SELECT count(*) FROM `" . $GLOBALS['APIDB']->prefix("salts") . "` WHERE `salt-key` = '" . $saltkey = sha1($pin.$emailkey.$urikey.$pin) ."'";
-    list($count) = $GLOBALS['APIDB']->FetchRow($GLOBALS['APIDB']->queryF($sql));
-    if ($count == 0)
-    {
-        $query[] = "INSERT INTO `" . $GLOBALS['APIDB']->prefix("salts") . "` (`salt-key`, `email-key`, `uri-key`, `fingerprint`, `salt`, `created`, `retrieves`, `retrieved`) VALUES('" . $saltkey ."', '" . $emailkey ."', '" . $urikey ."', md5('" . $GLOBALS['APIDB']->escape($salt) . "'), COMPRESS(AES_ENCRYPT('" . $GLOBALS['APIDB']->escape($salt) . "', '" . $GLOBALS['APIDB']->escape($pin . $url['base'] . $email . $pin) . "')), UNIX_TIMESTAMP(), 0, 0)";
-    } else
-        return array("error"=>"salt already exists", "code" => 500);
-        foreach($query as $question)
-            if (!$GLOBALS['APIDB']->QueryF($question))
-                return array("error"=>"salt creation errored non-existent!", "code" => 500);
-                return array("record"=>sha1(implode("|:|",$query)), "code" => 200);
-}
-
-/**
- * apiRetrieve() ~ retieves a salt from the database
- *
- * @param string $email
- * @param integer $pin
- * @param string $uri
- * @param array $peerings
- *
- * @return array
- */
-function apiRetrieve($email = '', $pin = 0, $uri = '', $peerings = array())
-{
-    $url['protocol'] = (substr($uri,0,5)=="https"?"https://":(substr($uri,0,5)=="httpx"?"httpx://":"http://"));
-    $url['domain'] = parse_url($uri, PHP_URL_HOST);
-    $url['path'] = parse_url($uri, PHP_URL_PATH);
-    $url['base'] = getBaseDomain($url['protocol'].$url['domain']);
-    $parts = array_reverse(explode('.', $url['base']));
-    $url['fallout'] = (strlen($parts[0])==2?$parts[0]:"");
-    $url['strata'] = (strlen($parts[0])!=2?$parts[0]:$parts[1]);
-    
-    $sql = "SELECT count(*) FROM `" . $GLOBALS['APIDB']->prefix("uri") . "` WHERE `uri-key` = '" . $urikey = sha1(implode("", $url)) ."'";
-    list($count) = $GLOBALS['APIDB']->FetchRow($GLOBALS['APIDB']->queryF($sql));
-    if ($count == 0)
-    {
-        return array("error"=>"email not found", "code" => 500);
-    }
-    $sql = "SELECT count(*) FROM `" . $GLOBALS['APIDB']->prefix("email") . "` WHERE `email` = '" . $email ."'";
-    list($count) = $GLOBALS['APIDB']->FetchRow($GLOBALS['APIDB']->queryF($sql));
-    if ($count == 0)
-    {
-        return array("error"=>"email not found", "code" => 500);
-    }
-    $sql = "SELECT DECOMPRESS(AES_DECRYPT(`salt`, '" . $GLOBALS['APIDB']->escape($pin . $url['base'] . $email . $pin) . "')) as `salt` FROM `" . $GLOBALS['APIDB']->prefix("salts") . "` WHERE `fingerprint` = md5(DECOMPRESS(AES_DECRYPT(`salt`, '" . $GLOBALS['APIDB']->escape($pin . $url['base'] . $email . $pin) . "')))";
-    list($salt) = $GLOBALS['APIDB']->FetchRow($GLOBALS['APIDB']->queryF($sql));
-    if (empty($salt))
-    {
-        return array("error"=>"no salt found could be wrong pin or email or url", "code" => 500);
-    }
-    return array("salt"=>$salt, 'md5'=>md5($salt), "code" => 200);
-}
-
-
-/**
- * apiSearch() ~ searches for an result on the API
- *
- * @param string $method
- * @param string $query
- * @param boolean $peers
- * @param integer $number
- * @param array $peerings
- *
- * @return array
- */
-function apiSearchV3($method = '', $query = '', $variable = '', $peers = false, $number = 1, $peerings = array())
-{
-    
-    switch ($method)
-    {
-        case "uri":
-            $url['protocol'] = (substr($query,0,5)=="https"?"https://":(substr($query,0,5)=="httpx"?"httpx://":"http://"));
-            $url['domain'] = parse_url($query, PHP_URL_HOST);
-            $url['path'] = parse_url($query, PHP_URL_PATH);
-            $url['base'] = getBaseDomain($url['protocol'].$url['domain']);
-            $parts = array_reverse(explode('.', $url['base']));
-            $url['fallout'] = (strlen($parts[0])==2?$parts[0]:"");
-            $url['strata'] = (strlen($parts[0])!=2?$parts[0]:$parts[1]);
-            $sql = "SELECT count(`a`.*) FROM `" . $GLOBALS['APIDB']->prefix("uri") . "` as `a` INNER JOIN  `" . $GLOBALS['APIDB']->prefix("salts") . "` as `b` ON `a`.`uri-key` = `b`.`uri-key` WHERE `a`.`uri-key` = '" . $urikey = sha1(implode("", $url)) ."' HAVING `b`.`variable` = " . $GLOBALS['APIDB']->quote($variable);
-            list($count) = $GLOBALS['APIDB']->FetchRow($GLOBALS['APIDB']->queryF($sql));
-            if ($count > 0)
-            {
-                return array("count"=>$count, "code" => 200);
-            }
-            break;
-        case "email":
-            $sql = "SELECT count(`a`.*) FROM `" . $GLOBALS['APIDB']->prefix("email") . "` as `a` INNER JOIN  `" . $GLOBALS['APIDB']->prefix("salts") . "` as `b` ON `a`.`email-key` = `b`.`email-key` WHERE `a`.`email` LIKE '" . $email ."' HAVING `b`.`variable` = " . $GLOBALS['APIDB']->quote($variable);
-            list($count) = $GLOBALS['APIDB']->FetchRow($GLOBALS['APIDB']->queryF($sql));
-            if ($count > 0)
-            {
-                return array("count"=>$count, "code" => 200);
-            }
-    }
-    return array("error"=>"nothing found", "code" => 500);
-}
-
-/**
- * apiLodge() ~ create's a blowfish salt lodgement
- *
- * @param string $email
- * @param string $name
- * @param integer $pin
- * @param string $uri
- * @param string $salt
- * @param array $peerings
- *
- * @return array
- */
-function apiLodgeV3($email = '', $variable = '', $name = '', $pin = 0, $uri = '', $salt = '', $peerings = array())
-{
-    
-    $url['protocol'] = (substr($uri,0,5)=="https"?"https://":(substr($uri,0,5)=="httpx"?"httpx://":"http://"));
-    $url['domain'] = parse_url($uri, PHP_URL_HOST);
-    $url['path'] = parse_url($uri, PHP_URL_PATH);
-    $url['base'] = getBaseDomain($url['protocol'].$url['domain']);
-    $parts = array_reverse(explode('.', $url['base']));
-    $url['fallout'] = (strlen($parts[0])==2?$parts[0]:"");
-    $url['strata'] = (strlen($parts[0])!=2?$parts[0]:$parts[1]);
-    
-    $sql = "SELECT count(*) FROM `" . $GLOBALS['APIDB']->prefix("uri") . "` WHERE `uri-key` = '" . $urikey = sha1(implode("", $url)) ."'";
-    list($count) = $GLOBALS['APIDB']->FetchRow($GLOBALS['APIDB']->queryF($sql));
-    if ($count == 0)
-    {
-        $query[] = "INSERT INTO `" . $GLOBALS['APIDB']->prefix("uri") . "` (`uri-key`, `encounted`, `protocol`, `domain`, `base`, `strata`, `fallout`, `salts`, `retrieves`) VALUES('" . $urikey ."', 1, '" . $GLOBALS['APIDB']->escape($url['protocol']) . "', '" . $GLOBALS['APIDB']->escape($url['domain']) . "', '" . $GLOBALS['APIDB']->escape($url['base']) . "','" . $GLOBALS['APIDB']->escape($url['strata']) . "','" . $GLOBALS['APIDB']->escape($url['fallout']) . "', 1, 0)";
-    } else {
-        $query[] = "UPDATE `" . $GLOBALS['APIDB']->prefix("uri") . "` SET `encounted` = `encounted` + 1, `salts` = `salts` + 1 WHERE `uri-key` = '" . $urikey ."'";
-    }
-    $sql = "SELECT count(*) FROM `" . $GLOBALS['APIDB']->prefix("email") . "` WHERE `email-key` = '" . $emailkey = sha1($email.$name.$urikey) ."'";
-    list($count) = $GLOBALS['APIDB']->FetchRow($GLOBALS['APIDB']->queryF($sql));
-    if ($count == 0)
-    {
-        $query[] = "INSERT INTO `" . $GLOBALS['APIDB']->prefix("email") . "` (`email-key`,`uri-key`, `email`, `name`) VALUES('" . $emailkey ."', '" . $urikey ."', '" . $GLOBALS['APIDB']->escape($email) . "', '" . $GLOBALS['APIDB']->escape($name) . "')";
-    }
-    $sql = "SELECT count(*) FROM `" . $GLOBALS['APIDB']->prefix("salts") . "` WHERE `variable` = '$variable' AND `salt-key` = '" . $saltkey = sha1($pin.$emailkey.$urikey.$pin) ."'";
-    list($count) = $GLOBALS['APIDB']->FetchRow($GLOBALS['APIDB']->queryF($sql));
-    if ($count == 0)
-    {
-        $query[] = "INSERT INTO `" . $GLOBALS['APIDB']->prefix("salts") . "` (`salt-key`, `email-key`, `uri-key`, `variable`, `fingerprint`, `salt`, `created`, `retrieves`, `retrieved`) VALUES('" . $saltkey ."', '" . $emailkey ."', '" . $urikey ."', '" . $variable ."', md5('" . $GLOBALS['APIDB']->escape($salt) . "'), COMPRESS(AES_ENCRYPT('" . $GLOBALS['APIDB']->escape($salt) . "', '" . $GLOBALS['APIDB']->escape($pin . $url['base'] . $email . $pin) . "')), UNIX_TIMESTAMP(), 0, 0)";
-    } else
-        return array("error"=>"salt already exists", "code" => 500);
-        foreach($query as $question)
-            if (!$GLOBALS['APIDB']->QueryF($question))
-                return array("error"=>"salt creation errored non-existent!", "code" => 500);
-                return array("record"=>sha1(implode("|:|",$query)), "code" => 200);
-}
-
-/**
- * apiRetrieve() ~ retieves a salt from the database
- *
- * @param string $email
- * @param integer $pin
- * @param string $uri
- * @param array $peerings
- *
- * @return array
- */
-function apiRetrieveV3($email = '', $variable = '', $pin = 0, $uri = '', $peerings = array())
-{
-    $url['protocol'] = (substr($uri,0,5)=="https"?"https://":(substr($uri,0,5)=="httpx"?"httpx://":"http://"));
-    $url['domain'] = parse_url($uri, PHP_URL_HOST);
-    $url['path'] = parse_url($uri, PHP_URL_PATH);
-    $url['base'] = getBaseDomain($url['protocol'].$url['domain']);
-    $parts = array_reverse(explode('.', $url['base']));
-    $url['fallout'] = (strlen($parts[0])==2?$parts[0]:"");
-    $url['strata'] = (strlen($parts[0])!=2?$parts[0]:$parts[1]);
-    
-    $sql = "SELECT count(*) FROM `" . $GLOBALS['APIDB']->prefix("uri") . "` WHERE `uri-key` = '" . $urikey = sha1(implode("", $url)) ."'";
-    list($count) = $GLOBALS['APIDB']->FetchRow($GLOBALS['APIDB']->queryF($sql));
-    if ($count == 0)
-    {
-        return array("error"=>"email not found", "code" => 500);
-    }
-    $sql = "SELECT count(*) FROM `" . $GLOBALS['APIDB']->prefix("email") . "` WHERE `email` = '" . $email ."'";
-    list($count) = $GLOBALS['APIDB']->FetchRow($GLOBALS['APIDB']->queryF($sql));
-    if ($count == 0)
-    {
-        return array("error"=>"email not found", "code" => 500);
-    }
-    $sql = "SELECT DECOMPRESS(AES_DECRYPT(`salt`, '" . $GLOBALS['APIDB']->escape($pin . $url['base'] . $email . $pin) . "')) as `salt` FROM `" . $GLOBALS['APIDB']->prefix("salts") . "` WHERE `fingerprint` = md5(DECOMPRESS(AES_DECRYPT(`salt`, '" . $GLOBALS['APIDB']->escape($pin . $url['base'] . $email . $pin) . "'))) HAVING `variable` = '$variable'";
-    list($salt) = $GLOBALS['APIDB']->FetchRow($GLOBALS['APIDB']->queryF($sql));
-    if (empty($salt))
-    {
-        return array("error"=>"no salt found could be wrong pin or email or url", "code" => 500);
-    }
-    return array("salt"=>$salt, 'md5'=>md5($salt), "code" => 200);
+if (!class_exists("XmlDomConstruct")) {
+	/**
+	 * class XmlDomConstruct
+	 * 
+	 * 	Extends the DOMDocument to implement personal (utility) methods.
+	 *
+	 * @author 		Simon Roberts (Chronolabs) simon@labs.coop
+	 */
+	class XmlDomConstruct extends DOMDocument {
+	
+		/**
+		 * Constructs elements and texts from an array or string.
+		 * The array can contain an element's name in the index part
+		 * and an element's text in the value part.
+		 *
+		 * It can also creates an xml with the same element tagName on the same
+		 * level.
+		 *
+		 * ex:
+		 * <nodes>
+		 *   <node>text</node>
+		 *   <node>
+		 *     <field>hello</field>
+		 *     <field>world</field>
+		 *   </node>
+		 * </nodes>
+		 *
+		 * Array should then look like:
+		 *
+		 * Array (
+		 *   "nodes" => Array (
+		 *     "node" => Array (
+		 *       0 => "text"
+		 *       1 => Array (
+		 *         "field" => Array (
+		 *           0 => "hello"
+		 *           1 => "world"
+		 *         )
+		 *       )
+		 *     )
+		 *   )
+		 * )
+		 *
+		 * @param mixed $mixed An array or string.
+		 *
+		 * @param DOMElement[optional] $domElement Then element
+		 * from where the array will be construct to.
+		 * 
+		 * @author 		Simon Roberts (Chronolabs) simon@labs.coop
+		 *
+		 */
+		public function fromMixed($mixed, DOMElement $domElement = null) {
+	
+			$domElement = is_null($domElement) ? $this : $domElement;
+	
+			if (is_array($mixed)) {
+				foreach( $mixed as $index => $mixedElement ) {
+	
+					if ( is_int($index) ) {
+						if ( $index == 0 ) {
+							$node = $domElement;
+						} else {
+							$node = $this->createElement($domElement->tagName);
+							$domElement->parentNode->appendChild($node);
+						}
+					}
+					 
+					else {
+						$node = $this->createElement($index);
+						$domElement->appendChild($node);
+					}
+					 
+					$this->fromMixed($mixedElement, $node);
+					 
+				}
+			} else {
+				$domElement->appendChild($this->createTextNode($mixed));
+			}
+			 
+		}
+		 
+	}
 }
 
 ?>

@@ -137,9 +137,7 @@ class SqlUtility
         if (!empty($sql) && trim($sql) != '') {
             $ret[] = $sql;
         }
-        foreach($ret as $key => $value)
-            if (strpos(" $value", 'use')||strpos(" $value", 'USE'))
-                unset($ret[$key]);
+
         return true; // end for
     }
 

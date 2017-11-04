@@ -21,14 +21,14 @@
  * @link			http://sourceoforge.net/projects/chronolabsapis
  */
 
+
 if (!is_file(__DIR__ . DIRECTORY_SEPARATOR . 'mainfile.php') || !is_file(__DIR__ . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'license.php'))
 {
     header('Location: ' . "./install");
     exit(0);
 }
 
-require_once __DIR__ . DIRECTORY_SEPARATOR . 'mainfile.php';
-require_once __DIR__ . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'common.php';
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'functions.php';
 
 /**
  * Opens Access Origin Via networking Route NPN
@@ -43,8 +43,10 @@ ini_set("zlib.output_compression", 'Off');
 ini_set("zlib.output_compression_level", -1);
 
 /**
-/**
  * 
  * @var constants
  */
-define("_API_LANGUAGE_DEFAULT", "english");
+define('API_AVATAR_WIDTH', 2000);
+define('API_AVATAR_HEIGHT', 2000);
+define('API_AVATAR_CONVERT', '/usr/bin/convert -size %sx%s "%s" "%s"');
+?>

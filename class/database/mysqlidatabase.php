@@ -61,9 +61,9 @@ class APIMySQLiDatabase extends APIDatabase
             $dbname = '';
         }
         if (API_DB_PCONNECT == 1) {
-            $this->conn = new MySQLi('p:' . API_DB_HOST, API_DB_USER, API_DB_PASS, $dbname);
+            $this->conn = new MySQLii('p:' . API_DB_HOST, API_DB_USER, API_DB_PASS, $dbname);
         } else {
-            $this->conn = new MySQLi(API_DB_HOST, API_DB_USER, API_DB_PASS, $dbname);
+            $this->conn = new MySQLii(API_DB_HOST, API_DB_USER, API_DB_PASS, $dbname);
         }
 
         // errno is 0 if connect was successful
@@ -97,26 +97,26 @@ class APIMySQLiDatabase extends APIDatabase
     /**
      * Get a result row as an enumerated array
      *
-     * @param mysqli_result $result
+     * @param MySQLii_result $result
      *
      * @return array|false false on end of data
      */
     public function fetchRow($result)
     {
-        $row = @mysqli_fetch_row($result);
+        $row = @MySQLii_fetch_row($result);
         return (null === $row) ? false : $row;
     }
 
     /**
      * Fetch a result row as an associative array
      *
-     * @param mysqli_result $result
+     * @param MySQLii_result $result
      *
      * @return array|false false on end of data
      */
     public function fetchArray($result)
     {
-        $row = @mysqli_fetch_assoc($result);
+        $row = @MySQLii_fetch_assoc($result);
         return (null === $row) ? false : $row;
 
     }
@@ -124,13 +124,13 @@ class APIMySQLiDatabase extends APIDatabase
     /**
      * Fetch a result row as an associative array
      *
-     * @param mysqli_result $result
+     * @param MySQLii_result $result
      *
      * @return array|false false on end of data
      */
     public function fetchBoth($result)
     {
-        $row = @mysqli_fetch_array($result, MySQLiI_BOTH);
+        $row = @MySQLii_fetch_array($result, MySQLiI_BOTH);
         return (null === $row) ? false : $row;
     }
 
@@ -142,7 +142,7 @@ class APIMySQLiDatabase extends APIDatabase
      */
     public function fetchObject($result)
     {
-        $row = @mysqli_fetch_object($result);
+        $row = @MySQLii_fetch_object($result);
         return (null === $row) ? false : $row;
     }
 
@@ -153,19 +153,19 @@ class APIMySQLiDatabase extends APIDatabase
      */
     public function getInsertId()
     {
-        return mysqli_insert_id($this->conn);
+        return MySQLii_insert_id($this->conn);
     }
 
     /**
      * Get number of rows in result
      *
-     * @param mysqli_result $result
+     * @param MySQLii_result $result
      *
      * @return int
      */
     public function getRowsNum($result)
     {
-        return @mysqli_num_rows($result);
+        return @MySQLii_num_rows($result);
     }
 
     /**
@@ -175,7 +175,7 @@ class APIMySQLiDatabase extends APIDatabase
      */
     public function getAffectedRows()
     {
-        return mysqli_affected_rows($this->conn);
+        return MySQLii_affected_rows($this->conn);
     }
 
     /**
@@ -185,19 +185,19 @@ class APIMySQLiDatabase extends APIDatabase
      */
     public function close()
     {
-        mysqli_close($this->conn);
+        MySQLii_close($this->conn);
     }
 
     /**
      * will free all memory associated with the result identifier result.
      *
-     * @param mysqli_result $result result
+     * @param MySQLii_result $result result
      *
      * @return void
      */
     public function freeRecordSet($result)
     {
-        mysqli_free_result($result);
+        MySQLii_free_result($result);
     }
 
     /**
@@ -207,7 +207,7 @@ class APIMySQLiDatabase extends APIDatabase
      */
     public function error()
     {
-        return @mysqli_error($this->conn);
+        return @MySQLii_error($this->conn);
     }
 
     /**
@@ -217,7 +217,7 @@ class APIMySQLiDatabase extends APIDatabase
      */
     public function errno()
     {
-        return @mysqli_errno($this->conn);
+        return @MySQLii_errno($this->conn);
     }
 
     /**
@@ -253,7 +253,7 @@ class APIMySQLiDatabase extends APIDatabase
      */
     public function escape($string)
     {
-        return mysqli_real_escape_string($this->conn, $string);
+        return MySQLii_real_escape_string($this->conn, $string);
     }
 
     /**
@@ -262,7 +262,7 @@ class APIMySQLiDatabase extends APIDatabase
      * @param string $sql   a valid MySQLi query
      * @param int    $limit number of records to return
      * @param int    $start offset of first record to return
-     * @return mysqli_result|bool query result or FALSE if successful
+     * @return MySQLii_result|bool query result or FALSE if successful
      *                      or TRUE if successful and no result
      */
     public function queryF($sql, $limit = 0, $start = 0)
@@ -274,7 +274,7 @@ class APIMySQLiDatabase extends APIDatabase
             $sql = $sql . ' LIMIT ' . (int)$start . ', ' . (int)$limit;
         }
         $this->logger->startTime('query_time');
-        $result = mysqli_query($this->conn, $sql);
+        $result = MySQLii_query($this->conn, $sql);
         $this->logger->stopTime('query_time');
         $query_time = $this->logger->dumpTime('query_time', true);
         if ($result) {
@@ -333,7 +333,7 @@ class APIMySQLiDatabase extends APIDatabase
     /**
      * Get field name
      *
-     * @param mysqli_result $result query result
+     * @param MySQLii_result $result query result
      * @param int           $offset numerical field index
      *
      * @return string
@@ -346,7 +346,7 @@ class APIMySQLiDatabase extends APIDatabase
     /**
      * Get field type
      *
-     * @param mysqli_result $result query result
+     * @param MySQLii_result $result query result
      * @param int           $offset numerical field index
      *
      * @return string
@@ -444,13 +444,13 @@ class APIMySQLiDatabase extends APIDatabase
     /**
      * Get number of fields in result
      *
-     * @param mysqli_result $result query result
+     * @param MySQLii_result $result query result
      *
      * @return int
      */
     public function getFieldsNum($result)
     {
-        return mysqli_num_fields($result);
+        return MySQLii_num_fields($result);
     }
 
     /**
@@ -460,7 +460,7 @@ class APIMySQLiDatabase extends APIDatabase
      */
     public function getServerVersion()
     {
-        return mysqli_get_server_info($this->conn);
+        return MySQLii_get_server_info($this->conn);
     }
 }
 

@@ -29,6 +29,7 @@ define('API_LICENSE_UNAME', '');
 define('API_LICENSE_EMAIL', '');
 define('API_LICENSE_PASSWORD', '');
 define('API_LICENSE_PROTOCOL', '');
+define('API_LICENSE_PORT', '');
 define('API_LICENSE_REALM', '');
 define('API_LICENSE_PATH', '');
 define('API_LICENSE_TYPE', '');
