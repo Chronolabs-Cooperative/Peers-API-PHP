@@ -32,6 +32,7 @@ CREATE TABLE users (
   email varchar(60) NOT NULL default '',
   hash varchar(12) NOT NULL default '-----------',
   url varchar(100) NOT NULL default '',
+  callback tinytext,
   api_avatar_file varchar(64) NOT NULL default 'blank.gif',
   api_avatar_path varchar(128) NOT NULL default 'uploads/avatars',
   api_regdate int(10) unsigned NOT NULL default '0',

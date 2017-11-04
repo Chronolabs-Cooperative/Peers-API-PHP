@@ -101,192 +101,149 @@ for($t=mt_rand(0, 10); $t<mt_rand(22,45); $t++)
     <h2>REGISTER Document Output</h2>
     <p>This is done with the <em>register.api</em> extension at the end of the url.</p>
     <blockquote>
-		<form action="<?php echo API_URL; ?>/v1/register/raw.api" method="post">
-			<label for="license-key">Licensing Key:&nbsp;</label><input type="text" name="license-key" id="license-key" value="" size="26" />
-			<label for="company">Company/Organisation:&nbsp;</label><input type="text" name="company" id="company" value="" size="26" />
-			<label for="uname">Username:&nbsp;</label><input type="text" name="uname" id="uname" value="" size="26" />
-			<label for="email">eMail:&nbsp;</label><input type="text" name="email" id="email" value="" size="26" />
-			<label for="password">Password MD5 Hash:&nbsp;</label><input type="text" name="password" id="password" value="" size="26" />
-			<label for="protocol">Peer Protocol:&nbsp;</label><input type="text" name="protocol" id="protocol" value="" size="26" />
-			<label for="realm">Peer Realm/Domain:&nbsp;</label><input type="text" name="realm" id="realm" value="" size="26" />
-			<label for="path">Peer URL Path:&nbsp;</label><input type="text" name="path" id="path" value="" size="26" />
-			<label for="type">API Type String:&nbsp;</label><input type="text" name="type" id="type" value="" size="26" />
-			<label for="timezone">PHP Timezone:&nbsp;</label><input type="text" name="timezone" id="timezone" size="26"/><br/>
-			<label for="time">Unix Timestamp:&nbsp;</label><input type="text" name="time" id="time" size="26"/><br/>
-			<input type="submit" id="submit" Value="Register Peer with Service" />
-		</form>
-		Example of Form:-
-		<pre>
-		&lt;form action=&quot;&lt;?php echo API_URL; ?&gt;/v1/register/raw.api&quot; method=&quot;post&quot;&gt;
-			&lt;label for=&quot;license-key&quot;&gt;Licensing Key:&nbsp;&lt;/label&gt;&lt;input type=&quot;text&quot; name=&quot;license-key&quot; id=&quot;license-key&quot; value=&quot;&quot; size=&quot;26&quot; /&gt;
-			&lt;label for=&quot;company&quot;&gt;Company/Organisation:&nbsp;&lt;/label&gt;&lt;input type=&quot;text&quot; name=&quot;company&quot; id=&quot;company&quot; value=&quot;&quot; size=&quot;26&quot; /&gt;
-			&lt;label for=&quot;uname&quot;&gt;Username:&nbsp;&lt;/label&gt;&lt;input type=&quot;text&quot; name=&quot;uname&quot; id=&quot;uname&quot; value=&quot;&quot; size=&quot;26&quot; /&gt;
-			&lt;label for=&quot;email&quot;&gt;eMail:&nbsp;&lt;/label&gt;&lt;input type=&quot;text&quot; name=&quot;email&quot; id=&quot;email&quot; value=&quot;&quot; size=&quot;26&quot; /&gt;
-			&lt;label for=&quot;password&quot;&gt;Password MD5 Hash:&nbsp;&lt;/label&gt;&lt;input type=&quot;text&quot; name=&quot;password&quot; id=&quot;password&quot; value=&quot;&quot; size=&quot;26&quot; /&gt;
-			&lt;label for=&quot;protocol&quot;&gt;Peer Protocol:&nbsp;&lt;/label&gt;&lt;input type=&quot;text&quot; name=&quot;protocol&quot; id=&quot;protocol&quot; value=&quot;&quot; size=&quot;26&quot; /&gt;
-			&lt;label for=&quot;realm&quot;&gt;Peer Realm/Domain:&nbsp;&lt;/label&gt;&lt;input type=&quot;text&quot; name=&quot;realm&quot; id=&quot;realm&quot; value=&quot;&quot; size=&quot;26&quot; /&gt;
-			&lt;label for=&quot;path&quot;&gt;Peer URL Path:&nbsp;&lt;/label&gt;&lt;input type=&quot;text&quot; name=&quot;path&quot; id=&quot;path&quot; value=&quot;&quot; size=&quot;26&quot; /&gt;
-			&lt;label for=&quot;type&quot;&gt;API Type String:&nbsp;&lt;/label&gt;&lt;input type=&quot;text&quot; name=&quot;type&quot; id=&quot;type&quot; value=&quot;&quot; size=&quot;26&quot; /&gt;
-			&lt;label for=&quot;timezone&quot;&gt;PHP Timezone:&nbsp;&lt;/label&gt;&lt;input type=&quot;text&quot; name=&quot;timezone&quot; id=&quot;timezone&quot; size=&quot;26&quot;/&gt;&lt;br/&gt;
-			&lt;label for=&quot;time&quot;&gt;Unix Timestamp:&nbsp;&lt;/label&gt;&lt;input type=&quot;text&quot; name=&quot;time&quot; id=&quot;time&quot; size=&quot;26&quot;/&gt;&lt;br/&gt;
-			&lt;input type=&quot;submit&quot; id=&quot;submit&quot; Value=&quot;Register Peer with Service&quot; /&gt;
-		&lt;/form&gt;
-		</pre>
-		<form action="<?php echo API_URL; ?>/v1/register/raw.api" method="post">
-			<label for="license-key">Licensing Key:&nbsp;</label><input type="text" name="license-key" id="license-key" value="" size="26" />
-			<label for="company">Company/Organisation:&nbsp;</label><input type="text" name="company" id="company" value="" size="26" />
-			<label for="uname">Username:&nbsp;</label><input type="text" name="uname" id="uname" value="" size="26" />
-			<label for="email">eMail:&nbsp;</label><input type="text" name="email" id="email" value="" size="26" />
-			<label for="password">Password MD5 Hash:&nbsp;</label><input type="text" name="password" id="password" value="" size="26" />
-			<label for="protocol">Peer Protocol:&nbsp;</label><input type="text" name="protocol" id="protocol" value="" size="26" />
-			<label for="realm">Peer Realm/Domain:&nbsp;</label><input type="text" name="realm" id="realm" value="" size="26" />
-			<label for="path">Peer URL Path:&nbsp;</label><input type="text" name="path" id="path" value="" size="26" />
-			<label for="type">API Type String:&nbsp;</label><input type="text" name="type" id="type" value="" size="26" />
-			<label for="timezone">PHP Timezone:&nbsp;</label><input type="text" name="timezone" id="timezone" size="26"/><br/>
-			<label for="time">Unix Timestamp:&nbsp;</label><input type="text" name="time" id="time" size="26"/><br/>
-			<input type="submit" id="submit" Value="Register Peer with Service" />
-		</form>
-		Example of Form:-
-		<pre>
-		&lt;form action=&quot;&lt;?php echo API_URL; ?&gt;/v1/register/raw.api&quot; method=&quot;post&quot;&gt;
-			&lt;label for=&quot;license-key&quot;&gt;Licensing Key:&nbsp;&lt;/label&gt;&lt;input type=&quot;text&quot; name=&quot;license-key&quot; id=&quot;license-key&quot; value=&quot;&quot; size=&quot;26&quot; /&gt;
-			&lt;label for=&quot;company&quot;&gt;Company/Organisation:&nbsp;&lt;/label&gt;&lt;input type=&quot;text&quot; name=&quot;company&quot; id=&quot;company&quot; value=&quot;&quot; size=&quot;26&quot; /&gt;
-			&lt;label for=&quot;uname&quot;&gt;Username:&nbsp;&lt;/label&gt;&lt;input type=&quot;text&quot; name=&quot;uname&quot; id=&quot;uname&quot; value=&quot;&quot; size=&quot;26&quot; /&gt;
-			&lt;label for=&quot;email&quot;&gt;eMail:&nbsp;&lt;/label&gt;&lt;input type=&quot;text&quot; name=&quot;email&quot; id=&quot;email&quot; value=&quot;&quot; size=&quot;26&quot; /&gt;
-			&lt;label for=&quot;password&quot;&gt;Password MD5 Hash:&nbsp;&lt;/label&gt;&lt;input type=&quot;text&quot; name=&quot;password&quot; id=&quot;password&quot; value=&quot;&quot; size=&quot;26&quot; /&gt;
-			&lt;label for=&quot;protocol&quot;&gt;Peer Protocol:&nbsp;&lt;/label&gt;&lt;input type=&quot;text&quot; name=&quot;protocol&quot; id=&quot;protocol&quot; value=&quot;&quot; size=&quot;26&quot; /&gt;
-			&lt;label for=&quot;realm&quot;&gt;Peer Realm/Domain:&nbsp;&lt;/label&gt;&lt;input type=&quot;text&quot; name=&quot;realm&quot; id=&quot;realm&quot; value=&quot;&quot; size=&quot;26&quot; /&gt;
-			&lt;label for=&quot;path&quot;&gt;Peer URL Path:&nbsp;&lt;/label&gt;&lt;input type=&quot;text&quot; name=&quot;path&quot; id=&quot;path&quot; value=&quot;&quot; size=&quot;26&quot; /&gt;
-			&lt;label for=&quot;type&quot;&gt;API Type String:&nbsp;&lt;/label&gt;&lt;input type=&quot;text&quot; name=&quot;type&quot; id=&quot;type&quot; value=&quot;&quot; size=&quot;26&quot; /&gt;
-			&lt;label for=&quot;timezone&quot;&gt;PHP Timezone:&nbsp;&lt;/label&gt;&lt;input type=&quot;text&quot; name=&quot;timezone&quot; id=&quot;timezone&quot; size=&quot;26&quot;/&gt;&lt;br/&gt;
-			&lt;label for=&quot;time&quot;&gt;Unix Timestamp:&nbsp;&lt;/label&gt;&lt;input type=&quot;text&quot; name=&quot;time&quot; id=&quot;time&quot; size=&quot;26&quot;/&gt;&lt;br/&gt;
-			&lt;input type=&quot;submit&quot; id=&quot;submit&quot; Value=&quot;Register Peer with Service&quot; /&gt;
-		&lt;/form&gt;
-		</pre>
-		<form action="<?php echo API_URL; ?>/v1/register/serial.api" method="post">
-			<label for="license-key">Licensing Key:&nbsp;</label><input type="text" name="license-key" id="license-key" value="" size="26" />
-			<label for="company">Company/Organisation:&nbsp;</label><input type="text" name="company" id="company" value="" size="26" />
-			<label for="uname">Username:&nbsp;</label><input type="text" name="uname" id="uname" value="" size="26" />
-			<label for="email">eMail:&nbsp;</label><input type="text" name="email" id="email" value="" size="26" />
-			<label for="password">Password MD5 Hash:&nbsp;</label><input type="text" name="password" id="password" value="" size="26" />
-			<label for="protocol">Peer Protocol:&nbsp;</label><input type="text" name="protocol" id="protocol" value="" size="26" />
-			<label for="realm">Peer Realm/Domain:&nbsp;</label><input type="text" name="realm" id="realm" value="" size="26" />
-			<label for="path">Peer URL Path:&nbsp;</label><input type="text" name="path" id="path" value="" size="26" />
-			<label for="type">API Type String:&nbsp;</label><input type="text" name="type" id="type" value="" size="26" />
-			<label for="timezone">PHP Timezone:&nbsp;</label><input type="text" name="timezone" id="timezone" size="26"/><br/>
-			<label for="time">Unix Timestamp:&nbsp;</label><input type="text" name="time" id="time" size="26"/><br/>
-			<input type="submit" id="submit" Value="Register Peer with Service" />
-		</form>
-		Example of Form:-
-		<pre>
-		&lt;form action=&quot;&lt;?php echo API_URL; ?&gt;/v1/register/serial.api&quot; method=&quot;post&quot;&gt;
-			&lt;label for=&quot;license-key&quot;&gt;Licensing Key:&nbsp;&lt;/label&gt;&lt;input type=&quot;text&quot; name=&quot;license-key&quot; id=&quot;license-key&quot; value=&quot;&quot; size=&quot;26&quot; /&gt;
-			&lt;label for=&quot;company&quot;&gt;Company/Organisation:&nbsp;&lt;/label&gt;&lt;input type=&quot;text&quot; name=&quot;company&quot; id=&quot;company&quot; value=&quot;&quot; size=&quot;26&quot; /&gt;
-			&lt;label for=&quot;uname&quot;&gt;Username:&nbsp;&lt;/label&gt;&lt;input type=&quot;text&quot; name=&quot;uname&quot; id=&quot;uname&quot; value=&quot;&quot; size=&quot;26&quot; /&gt;
-			&lt;label for=&quot;email&quot;&gt;eMail:&nbsp;&lt;/label&gt;&lt;input type=&quot;text&quot; name=&quot;email&quot; id=&quot;email&quot; value=&quot;&quot; size=&quot;26&quot; /&gt;
-			&lt;label for=&quot;password&quot;&gt;Password MD5 Hash:&nbsp;&lt;/label&gt;&lt;input type=&quot;text&quot; name=&quot;password&quot; id=&quot;password&quot; value=&quot;&quot; size=&quot;26&quot; /&gt;
-			&lt;label for=&quot;protocol&quot;&gt;Peer Protocol:&nbsp;&lt;/label&gt;&lt;input type=&quot;text&quot; name=&quot;protocol&quot; id=&quot;protocol&quot; value=&quot;&quot; size=&quot;26&quot; /&gt;
-			&lt;label for=&quot;realm&quot;&gt;Peer Realm/Domain:&nbsp;&lt;/label&gt;&lt;input type=&quot;text&quot; name=&quot;realm&quot; id=&quot;realm&quot; value=&quot;&quot; size=&quot;26&quot; /&gt;
-			&lt;label for=&quot;path&quot;&gt;Peer URL Path:&nbsp;&lt;/label&gt;&lt;input type=&quot;text&quot; name=&quot;path&quot; id=&quot;path&quot; value=&quot;&quot; size=&quot;26&quot; /&gt;
-			&lt;label for=&quot;type&quot;&gt;API Type String:&nbsp;&lt;/label&gt;&lt;input type=&quot;text&quot; name=&quot;type&quot; id=&quot;type&quot; value=&quot;&quot; size=&quot;26&quot; /&gt;
-			&lt;label for=&quot;timezone&quot;&gt;PHP Timezone:&nbsp;&lt;/label&gt;&lt;input type=&quot;text&quot; name=&quot;timezone&quot; id=&quot;timezone&quot; size=&quot;26&quot;/&gt;&lt;br/&gt;
-			&lt;label for=&quot;time&quot;&gt;Unix Timestamp:&nbsp;&lt;/label&gt;&lt;input type=&quot;text&quot; name=&quot;time&quot; id=&quot;time&quot; size=&quot;26&quot;/&gt;&lt;br/&gt;
-			&lt;input type=&quot;submit&quot; id=&quot;submit&quot; Value=&quot;Register Peer with Service&quot; /&gt;
-		&lt;/form&gt;
-		</pre>
-		<form action="<?php echo API_URL; ?>/v1/register/xml.api" method="post">
-			<label for="license-key">Licensing Key:&nbsp;</label><input type="text" name="license-key" id="license-key" value="" size="26" />
-			<label for="company">Company/Organisation:&nbsp;</label><input type="text" name="company" id="company" value="" size="26" />
-			<label for="uname">Username:&nbsp;</label><input type="text" name="uname" id="uname" value="" size="26" />
-			<label for="email">eMail:&nbsp;</label><input type="text" name="email" id="email" value="" size="26" />
-			<label for="password">Password MD5 Hash:&nbsp;</label><input type="text" name="password" id="password" value="" size="26" />
-			<label for="protocol">Peer Protocol:&nbsp;</label><input type="text" name="protocol" id="protocol" value="" size="26" />
-			<label for="realm">Peer Realm/Domain:&nbsp;</label><input type="text" name="realm" id="realm" value="" size="26" />
-			<label for="path">Peer URL Path:&nbsp;</label><input type="text" name="path" id="path" value="" size="26" />
-			<label for="type">API Type String:&nbsp;</label><input type="text" name="type" id="type" value="" size="26" />
-			<label for="timezone">PHP Timezone:&nbsp;</label><input type="text" name="timezone" id="timezone" size="26"/><br/>
-			<label for="time">Unix Timestamp:&nbsp;</label><input type="text" name="time" id="time" size="26"/><br/>
-			<input type="submit" id="submit" Value="Register Peer with Service" />
-		</form>
-		Example of Form:-
-		<pre>
-		&lt;form action=&quot;&lt;?php echo API_URL; ?&gt;/v1/register/xml.api&quot; method=&quot;post&quot;&gt;
-			&lt;label for=&quot;license-key&quot;&gt;Licensing Key:&nbsp;&lt;/label&gt;&lt;input type=&quot;text&quot; name=&quot;license-key&quot; id=&quot;license-key&quot; value=&quot;&quot; size=&quot;26&quot; /&gt;
-			&lt;label for=&quot;company&quot;&gt;Company/Organisation:&nbsp;&lt;/label&gt;&lt;input type=&quot;text&quot; name=&quot;company&quot; id=&quot;company&quot; value=&quot;&quot; size=&quot;26&quot; /&gt;
-			&lt;label for=&quot;uname&quot;&gt;Username:&nbsp;&lt;/label&gt;&lt;input type=&quot;text&quot; name=&quot;uname&quot; id=&quot;uname&quot; value=&quot;&quot; size=&quot;26&quot; /&gt;
-			&lt;label for=&quot;email&quot;&gt;eMail:&nbsp;&lt;/label&gt;&lt;input type=&quot;text&quot; name=&quot;email&quot; id=&quot;email&quot; value=&quot;&quot; size=&quot;26&quot; /&gt;
-			&lt;label for=&quot;password&quot;&gt;Password MD5 Hash:&nbsp;&lt;/label&gt;&lt;input type=&quot;text&quot; name=&quot;password&quot; id=&quot;password&quot; value=&quot;&quot; size=&quot;26&quot; /&gt;
-			&lt;label for=&quot;protocol&quot;&gt;Peer Protocol:&nbsp;&lt;/label&gt;&lt;input type=&quot;text&quot; name=&quot;protocol&quot; id=&quot;protocol&quot; value=&quot;&quot; size=&quot;26&quot; /&gt;
-			&lt;label for=&quot;realm&quot;&gt;Peer Realm/Domain:&nbsp;&lt;/label&gt;&lt;input type=&quot;text&quot; name=&quot;realm&quot; id=&quot;realm&quot; value=&quot;&quot; size=&quot;26&quot; /&gt;
-			&lt;label for=&quot;path&quot;&gt;Peer URL Path:&nbsp;&lt;/label&gt;&lt;input type=&quot;text&quot; name=&quot;path&quot; id=&quot;path&quot; value=&quot;&quot; size=&quot;26&quot; /&gt;
-			&lt;label for=&quot;type&quot;&gt;API Type String:&nbsp;&lt;/label&gt;&lt;input type=&quot;text&quot; name=&quot;type&quot; id=&quot;type&quot; value=&quot;&quot; size=&quot;26&quot; /&gt;
-			&lt;label for=&quot;timezone&quot;&gt;PHP Timezone:&nbsp;&lt;/label&gt;&lt;input type=&quot;text&quot; name=&quot;timezone&quot; id=&quot;timezone&quot; size=&quot;26&quot;/&gt;&lt;br/&gt;
-			&lt;label for=&quot;time&quot;&gt;Unix Timestamp:&nbsp;&lt;/label&gt;&lt;input type=&quot;text&quot; name=&quot;time&quot; id=&quot;time&quot; size=&quot;26&quot;/&gt;&lt;br/&gt;
-			&lt;input type=&quot;submit&quot; id=&quot;submit&quot; Value=&quot;Register Peer with Service&quot; /&gt;
-		&lt;/form&gt;
+    	<p>This is the API Call for registering a peer + user with the peer securities databases!</p>
+		<pre style="overflow: scroll; max-width: 95%; height: 560px;">
+if (!function_exists("getURIData")) {
+    
+    /* function getURIData()
+     *
+     * 	Get a supporting domain system for the API
+     * @author 		Simon Roberts (Chronolabs) simon@snails.email
+     *
+     * @return 		float()
+     */
+    function getURIData($uri = '', $timeout = 25, $connectout = 25, $post = array(), $headers = array())
+    {
+        if (!function_exists("curl_init"))
+        {
+            die("Require module: php-curl -- run on ubuntu: $ sudo apt-get install php-curl");
+        }
+        if (!$btt = curl_init($uri)) {
+            return false;
+        }
+        if (count($headers)>0)
+        {
+            curl_setopt($btt, CURLOPT_HEADER, true);
+            curl_setopt($btt, CURLOPT_HTTPHEADER, implode("\n", $headers));
+        } else
+            curl_setopt($btt, CURLOPT_HEADER, 0);
+        if (count($post)>0)
+        {
+            curl_setopt($btt, CURLOPT_POST, true);
+            curl_setopt($btt, CURLOPT_POSTFIELDS, http_build_query($post_data));
+        } else
+            curl_setopt($btt, CURLOPT_POST, 0);
+        curl_setopt($btt, CURLOPT_CONNECTTIMEOUT, $connectout);
+        curl_setopt($btt, CURLOPT_TIMEOUT, $timeout);
+        curl_setopt($btt, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($btt, CURLOPT_VERBOSE, false);
+        curl_setopt($btt, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($btt, CURLOPT_SSL_VERIFYPEER, false);
+        $data = curl_exec($btt);
+        $state = curl_getinfo($btt, CURLINFO_HTTP_CODE);
+        $header = curl_getinfo($btt, CURLINFO_HEADER_OUT);
+        $info = curl_getinfo($btt);
+        curl_close($btt);
+        return array('value' => $data, 'state' => $state, 'header' => $header, 'info' => $info);
+    }
+}
+		
+
+/**
+ * This is the calling of this form function done correctly with security headers set!!
+ *
+ */		
+$results = getURIData('<?php echo API_URL; ?>/v3/register/json.api', 10, 10, array(		'license-key'   =>  $system_key,
+                                                                                        'company'       =>  $vars['ADMIN_COMPANY'],
+                                                                                        'uname'         =>  $vars['ADMIN_UNAME'],
+                                                                                        'email'         =>  $vars['ADMIN_EMAIL'],
+                                                                                        'password'      =>  md5($vars['ADMIN_PASSWORD']),
+                                                                                        'protocol'      =>  parse_url($vars['URL'], PHP_URL_SCHEME),
+                                                                                        'realm'         =>  parse_url($vars['URL'], PHP_URL_HOST),
+                                                                                        'path'          =>  parse_url($vars['URL'], PHP_URL_PATH),
+                                                                                        'type'          =>  API_TYPE,
+                                                                                        'timezone'      =>  date_default_timezone_get(),
+                                                                                        'time'          =>  microtime(true),
+                                                                                  ),
+                                                                                  array('API-VERSION'   =>  'API-VERSION: ' . API_VERSION,
+                                                                                        'API-TYPE'      =>  'API-TYPE: ' . API_TYPE,
+                                                                                        'API-TIMEZONE'  =>  'API-TIMEZONE: ' . date_default_timezone_get(),
+                                                                                        'API-UNIXTIME'  =>  'API-UNIXTIME: ' . microtime(true),
+                                                                                  ));	
 		</pre>
     </blockquote>
-    <h2>LODGE Document Output</h2>
-    <p>This is done with the <em>lodge.api</em> extension at the end of the url.</p>
+    <h2>UPLOAD Document Output</h2>
+    <p>This is done with the <em>upload.api</em> extension at the end of the url.</p>
     <blockquote>
-		<form action="<?php echo API_URL; ?>/v3/lodge.api" method="post">
-			<label for="response-json">Response formated JSON&nbsp;</label><input type="radio" name="response" id="response-json" value="json" checked="checked"/>
-			<label for="response-serial">Response formated PHP Serialisation&nbsp;</label><input type="radio" name="response" id="response-serial" value="serial"/>
-			<label for="response-xml">Response formated XML&nbsp;</label><input type="radio" name="response" id="response-xml" value="xml"/><br/>
-			<label for="response-raw">Response formated RAW&nbsp;</label><input type="radio" name="response" id="response-raw" value="raw"/><br/>
-			<label for="email">Email Address:&nbsp;</label><input type="text" name="email" id="email" maxlen="198" size="26"/><br/>
-			<label for="name">Email Naming:&nbsp;</label><input type="text" name="name" id="name" maxlen="198" size="26"/><br/>
-			<label for="variable">Salt Variable Name:&nbsp;</label><input type="text" name="variable" id="variable" maxlen="128" size="26"/><br/>
-			<label for="pin">4 - 12 Digit Only Pin:&nbsp;</label><input type="text" name="pin" id="pin" maxlen="12" size="13"/><br/>
-			<label for="uri">Site Root Path:&nbsp;</label><input type="text" name="uri" id="uri" maxlen="12" size="13" value="<?php echo API_URL . '/'; ?>"/><br/>
-			<label for="salt">Encryption Salt:&nbsp;</label><textarea name="salt" id="salt" rows="9" cols="55"><?php echo $data; ?></textarea><br/>
-			<input type="submit" id="submit" Value="Create New Salt Lodgement" />
-		</form>
+		<?php echo getHTMLForm('upload', API_URL . '/v3/return/upload/%referee.api?peer=%peer', API_URL . '/v3/callback/upload/%referee.api?peer=%peer'); ?>
 		Example of Form:-
-		<pre style="overflow: scroll; max-width: 95%">
-	&lt;form action=&quot;<?php echo API_URL; ?>/v3/lodge.api&quot; method=&quot;post&quot;&gt;
-		&lt;label for=&quot;response-json&quot;&gt;Response formated JSON&nbsp;&lt;/label&gt;&lt;input type=&quot;radio&quot; name=&quot;response&quot; id=&quot;response-json&quot; value=&quot;json&quot; checked=&quot;checked&quot;/&gt;
-		&lt;label for=&quot;response-serial&quot;&gt;Response formated PHP Serialisation&nbsp;&lt;/label&gt;&lt;input type=&quot;radio&quot; name=&quot;response&quot; id=&quot;response-serial&quot; value=&quot;serial&quot;/&gt;
-		&lt;label for=&quot;response-xml&quot;&gt;Response formated XML&nbsp;&lt;/label&gt;&lt;input type=&quot;radio&quot; name=&quot;response&quot; id=&quot;response-xml&quot; value=&quot;xml&quot;/&gt;&lt;br/&gt;
-		&lt;label for=&quot;response-raw&quot;&gt;Response formated RAW&nbsp;&lt;/label&gt;&lt;input type=&quot;radio&quot; name=&quot;response&quot; id=&quot;response-raw&quot; value=&quot;raw&quot;/&gt;&lt;br/&gt;
-		&lt;label for=&quot;email&quot;&gt;Email Address:&nbsp;&lt;/label&gt;&lt;input type=&quot;text&quot; name=&quot;email&quot; id=&quot;email&quot; maxlen=&quot;198&quot; size=&quot;26&quot;/&gt;&lt;br/&gt;
-		&lt;label for=&quot;name&quot;&gt;Email Naming:&nbsp;&lt;/label&gt;&lt;input type=&quot;text&quot; name=&quot;name&quot; id=&quot;name&quot; maxlen=&quot;198&quot; size=&quot;26&quot;/&gt;&lt;br/&gt;
-		&lt;label for=&quot;pin&quot;&gt;4 - 12 Digit Only Pin:&nbsp;&lt;/label&gt;&lt;input type=&quot;text&quot; name=&quot;pin&quot; id=&quot;pin&quot; maxlen=&quot;12&quot; size=&quot;13&quot;/&gt;&lt;br/&gt;
-		&lt;label for=&quot;variable&quot;&gt;Salt Variable Name:&nbsp;&lt;/label&gt;&lt;input type=&quot;text&quot; name=&quot;variable&quot; id=&quot;variable&quot; maxlen=&quot;128&quot; size=&quot;26&quot;/&gt;&lt;br/&gt;
-		&lt;label for=&quot;uri&quot;&gt;Site Root Path:&nbsp;&lt;/label&gt;&lt;input type=&quot;text&quot; name=&quot;uri&quot; id=&quot;uri&quot; maxlen=&quot;12&quot; size=&quot;13&quot; value=&quot;<?php echo API_URL . '/'; ?>&quot;/&gt;&lt;br/&gt;
-		&lt;label for=&quot;salt&quot;&gt;Encryption Salt:&nbsp;&lt;/label&gt;&lt;textarea name=&quot;salt&quot; id=&quot;salt&quot; rows=&quot;9&quot; cols=&quot;26&quot;&gt;<?php echo $data; ?>&lt;/textarea&gt;&lt;br/&gt;
-		&lt;input type=&quot;submit&quot; id=&quot;submit&quot; Value=&quot;Create New Salt Lodgement&quot; /&gt;
-	&lt;/form&gt;
+		<pre style="overflow: scroll; max-width: 95%; height: 560px;">
+			<?php echo htmlspecialchars(getHTMLForm('upload', API_URL . '/v3/return/upload/%referee.api?peer=%peer', API_URL . '/v3/callback/upload/%referee.api?peer=%peer')); ?>
 		</pre>
-    </blockquote>
-    <h2>RETRIEVE Document Output</h2>
-    <p>This is done with the <em>retrieve.api</em> extension at the end of the url.</p>
-    <blockquote>
-		<form action="<?php echo API_URL; ?>/v3/retrieve.api" method="post">
-			<label for="response-json">Response formated JSON&nbsp;</label><input type="radio" name="response" id="response-json" value="json" checked="checked"/>
-			<label for="response-serial">Response formated PHP Serialisation&nbsp;</label><input type="radio" name="response" id="response-serial" value="serial"/>
-			<label for="response-xml">Response formated XML&nbsp;</label><input type="radio" name="response" id="response-xml" value="xml"/><br/>
-			<label for="response-raw">Response formated RAW&nbsp;</label><input type="radio" name="response" id="response-raw" value="raw"/><br/>
-			<label for="email">Email Address:&nbsp;</label><input type="text" name="email" id="email" maxlen="198" size="26"/><br/>
-			<label for="variable">Salt Variable Name:&nbsp;</label><input type="text" name="variable" id="variable" maxlen="128" size="26"/><br/>
-			<label for="pin">4 - 12 Digit Only Pin:&nbsp;</label><input type="text" name="pin" id="pin" maxlen="12" size="13"/><br/>
-			<label for="uri">Site Root Path:&nbsp;</label><input type="text" name="uri" id="uri" maxlen="12" size="13" value="<?php echo API_URL . '/'; ?>"/><br/>
-			<input type="submit" id="submit" Value="Retrieve Salt Lodgement" />
-		</form>
-		Example of Form:-
+		<br></br>
 		<pre>
-	&lt;form action=&quot;<?php echo API_URL; ?>/v3/retrieve.api&quot; method=&quot;post&quot;&gt;
-		&lt;label for=&quot;response-json&quot;&gt;Response formated JSON&nbsp;&lt;/label&gt;&lt;input type=&quot;radio&quot; name=&quot;response&quot; id=&quot;response-json&quot; value=&quot;json&quot; checked=&quot;checked&quot;/&gt;
-		&lt;label for=&quot;response-serial&quot;&gt;Response formated PHP Serialisation&nbsp;&lt;/label&gt;&lt;input type=&quot;radio&quot; name=&quot;response&quot; id=&quot;response-serial&quot; value=&quot;serial&quot;/&gt;
-		&lt;label for=&quot;response-xml&quot;&gt;Response formated XML&nbsp;&lt;/label&gt;&lt;input type=&quot;radio&quot; name=&quot;response&quot; id=&quot;response-xml&quot; value=&quot;xml&quot;/&gt;&lt;br/&gt;
-		&lt;label for=&quot;response-raw&quot;&gt;Response formated RAW&nbsp;&lt;/label&gt;&lt;input type=&quot;radio&quot; name=&quot;response&quot; id=&quot;response-raw&quot; value=&quot;raw&quot;/&gt;&lt;br/&gt;
-		&lt;label for=&quot;email&quot;&gt;Email Address:&nbsp;&lt;/label&gt;&lt;input type=&quot;text&quot; name=&quot;email&quot; id=&quot;email&quot; maxlen=&quot;198&quot; size=&quot;26&quot;/&gt;&lt;br/&gt;
-		&lt;label for=&quot;variable&quot;&gt;Salt Variable Name:&nbsp;&lt;/label&gt;&lt;input type=&quot;text&quot; name=&quot;variable&quot; id=&quot;variable&quot; maxlen=&quot;128&quot; size=&quot;26&quot;/&gt;&lt;br/&gt;
-		&lt;label for=&quot;pin&quot;&gt;4 - 12 Digit Only Pin:&nbsp;&lt;/label&gt;&lt;input type=&quot;text&quot; name=&quot;pin&quot; id=&quot;pin&quot; maxlen=&quot;12&quot; size=&quot;13&quot;/&gt;&lt;br/&gt;
-		&lt;label for=&quot;uri&quot;&gt;Site Root Path:&nbsp;&lt;/label&gt;&lt;input type=&quot;text&quot; name=&quot;uri&quot; id=&quot;uri&quot; maxlen=&quot;12&quot; size=&quot;13&quot; value=&quot;<?php echo API_URL . '/'; ?>&quot;/&gt;&lt;br/&gt;
-		&lt;input type=&quot;submit&quot; id=&quot;submit&quot; Value=&quot;Retrieve Salt Lodgement&quot; /&gt;
-	&lt;/form&gt;
+		
+/**
+ * This is the calling of this form function done correctly with image file bein uploaded $_FILES 
+ * code layer with the @ specified at the start of the path with cURL (also in the shell bash the same)!!
+ */		
+$results = getURIData('<?php echo API_URL; ?>/v3/upload/image.api', 20, 20, array(	'image'   =>  "@/tmp/peers/uploaded.png",
+																					'return'  =>  "<?php echo API_URL . '/v3/return/upload/%referee.api?peer=%peer'; ?>"
+																					'callback'=>  "<?php echo API_URL . '/v3/callback/upload/%referee.api?peer=%peer'; ?>"));	
 		</pre>
+		
+    </blockquote>
+    <h2>FORMS Document Output</h2>
+    <p>This is done with the <em>forms.api</em> extension at the end of the url.</p>
+    <blockquote>
+		<pre>
+
+/**
+ * This will get a HTML form for uploadin avatars/images function done correctly with uploaded $_FILES 
+ * code layer with the @ specified at the start of the path with cURL (also in the shell bash the same)!!
+ */		
+$results = getURIData('<?php echo API_URL; ?>/v3/forms/upload/json.api', 20, 20, array(	'return' 	=> 	"<?php echo API_URL . '/v3/return/upload/%referee.api?peer=%peer'; ?>",
+																						'callback' 	=> 	"<?php echo API_URL . '/v3/callback/upload/%referee.api?peer=%peer'; ?>" ));
+
+// Below is the HTML outputed in ~ $json = json_decode($results['value'], false);
+		</pre>
+		<br/>
+		Example of Form:-
+		<pre style="overflow: scroll; max-width: 95%; height: 560px;">
+			<?php echo htmlspecialchars(getHTMLForm('upload', API_URL . '/v3/return/upload/%referee.api?peer=%peer', API_URL . '/v3/callback/upload/%referee.api?peer=%peer')); ?>
+		</pre>
+		<br/><br/>
+		<pre>		
+
+/**
+ * This is the calling of this form function done correctly with image that has been uploaded
+ * referee specified to update a current active uploaded image/avatar
+ */		
+$results = getURIData('<?php echo API_URL; ?>/v3/forms/update/json.api', 20, 20, array('referee' => 'skfjdhsjkdhwfhwuehfjkhjksdhfkj'));
+
+// Below is the HTML outputed in ~ $json = json_decode($results['value'], false);
+		</pre>
+		<br/>
+		Example of output of HTML:<br/>
+		<pre>
+		</pre>
+
+		<br/><br/>
+		<pre>		
+
+/**
+ * This is the calling of this form function done correctly with type specified for choosing from 
+ * existing avatars not uploading one but using existing system peer avatars!
+ */		
+$results = getURIData('<?php echo API_URL; ?>/v3/forms/choose/json.api', 20, 20, array('uid' => '1'));
+
+// Below is the HTML outputed in ~ $json = json_decode($results['value'], false);
+		</pre>
+		<br/>
+		Example of output of HTML:<br/>
+		<pre>
+		</pre>
+
     </blockquote>
     <h2>The Author</h2>
     <p>This was developed by Simon Roberts in 2017 and is part of the Chronolabs System and api's.<br/><br/>This is open source which you can download from <a href="https://sourceforge.net/projects/chronolabsapis/">https://sourceforge.net/projects/chronolabsapis/</a> contact the scribe  <a href="mailto:wishcraft@users.sourceforge.net">wishcraft@users.sourceforge.net</a></p></body>

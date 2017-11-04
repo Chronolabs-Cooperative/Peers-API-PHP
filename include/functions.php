@@ -78,6 +78,81 @@ if (!function_exists('registerUserResource'))
         return array('pid' => $pid, 'uid' => $user['uid'], 'uname' => $user['uname'], 'referee' => $user['hash'], 'authkey' => md5($user['api_regdate'] . $user['uname'] . $user['email'] . str_replace('salt_alpha', $user['salt_alpha'], str_replace('salt_charley', $user['salt_charley'], str_replace('salt_delta', $user['salt_delta,'], str_replace(' + ', '', $user['salt_gamma']))))));
     }
 }
+
+
+if (!function_exists("getHTMLForm")) {
+    /**
+     * Get the HTML Forms for the API
+     *
+     * @param unknown_type $mode
+     * @param unknown_type $clause
+     * @param unknown_type $output
+     * @param unknown_type $version
+     *
+     * @return string
+     */
+    function getHTMLForm($mode = '', $return = '', $callback = '')
+    {
+        $head = array();
+        $form = array();
+        $foot = array();
+        switch ($mode)
+        {
+            case "upload":
+                $form[] = "<form name=\"avatar\" method=\"POST\" enctype=\"multipart/form-data\" action=\"" . API_URL . "/v3/upload/image.api\">";
+                $form[] = "\t<table class='avatar-uploader' id='avatar-uploader' style='vertical-align: top !important; min-width: 98%;'>";
+                $form[] = "\t\t<tr>";
+                $form[] = "\t\t\t<td colspan='3'>";
+                $form[] = "\t\t\t\t<label for='image'>Any Image File Possible:&nbsp;<font style='color: rgb(250,0,0); font-size: 139%; font-weight: bold'>*</font></label>";
+                $form[] = "\t\t\t\t<input type='file' name='image' id='image'><br/>";
+                $form[] = "\t\t\t\t<div style='margin-left:42px; font-size: 71.99%; margin-top: 7px; padding: 11px;'>";
+                $form[] = "\t\t\t\t\t ~~ <strong>Maximum Upload Size Is: <em style='color:rgb(255,100,123); font-weight: bold; font-size: 132.6502%;'>" . ini_get('upload_max_filesize') . "!!!</em></strong><br/>";
+                $form[] = "\t\t\t\t</div>";
+                $form[] = "\t\t\t</td>";
+                $form[] = "\t\t</tr>";
+                $form[] = "\t\t<tr>";
+                $form[] = "\t\t\t<td colspan='3'>";
+                $form[] = "\t\t\t\t<label for='ip'>Your IP Address:&nbsp;<font style='color: rgb(250,0,0); font-size: 139%; font-weight: bold'>*</font></label>";
+                $form[] = "\t\t\t\t<input type='text' size='20' name='ip' id='ip' value='".$_SERVER['REMOTE_ADDR']."'><br/>";
+                $form[] = "\t\t\t\t</div>";
+                $form[] = "\t\t\t</td>";
+                $form[] = "\t\t</tr>";
+                $form[] = "\t\t<tr>";
+                $form[] = "\t\t<tr>";
+                $form[] = "\t\t\t<td colspan='3'>";
+                $form[] = "\t\t\t\t<label for='referee'>Asset Referee Key:&nbsp;<font style='color: rgb(250,0,0); font-size: 139%; font-weight: bold'>*</font></label>";
+                $form[] = "\t\t\t\t<input type='text' size='20' maxlen='128' name='referee' id='referee' value='".md5(time().API_URL)."'><br/>";
+                $form[] = "\t\t\t\t</div>";
+                $form[] = "\t\t\t</td>";
+                $form[] = "\t\t</tr>";
+                $form[] = "\t\t<tr>";
+                $form[] = "\t\t\t<td colspan='3'>";
+                $form[] = "\t\t\t\t<label for='email'>Image Uploaders Email:&nbsp;</label>";
+                $form[] = "\t\t\t\t<input type='text' size='20' name='email' id='email' value=''><br/>";
+                $form[] = "\t\t\t\t</div>";
+                $form[] = "\t\t\t</td>";
+                $form[] = "\t\t</tr>";
+                $form[] = "\t\t<tr>";
+                $form[] = "\t\t\t<td colspan='3' style='padding-left:64px;'>";
+                $form[] = "\t\t\t\t<input type='hidden' name='return' value='$return'>";
+                $form[] = "\t\t\t\t<input type='hidden' name='callback' value='$callback'>";
+                $form[] = "\t\t\t\t<input type='submit' value='Upload + Convert Image' name='submit' style='padding:11px; font-size:122%;'>";
+                $form[] = "\t\t\t</td>";
+                $form[] = "\t\t</tr>";
+                $form[] = "\t\t<tr>";
+                $form[] = "\t\t\t<td colspan='3' style='padding-top: 8px; padding-bottom: 14px; padding-right:35px; text-align: right;'>";
+                $form[] = "\t\t\t\t<font style='color: rgb(250,0,0); font-size: 139%; font-weight: bold;'>* </font><font  style='color: rgb(10,10,10); font-size: 99%; font-weight: bold'><em style='font-size: 76%'>~ Required Field for Form Submission</em></font>";
+                $form[] = "\t\t\t</td>";
+                $form[] = "\t\t</tr>";
+                $form[] = "\t\t<tr>";
+                $form[] = "\t</table>";
+                $form[] = "</form>";
+                break;
+        }
+        return (empty($head) && empty($foot) ? implode("\n", $form) : array('head' => implode("\n", $head), 'html' => implode("\n", $form), 'foot' => implode("\n", $foot)));
+    }
+}
+
 if (!function_exists("sendURIData")) {
     
     /* function getURIData()
